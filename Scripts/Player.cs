@@ -14,13 +14,20 @@ public partial class Player : CharacterBody3D
 	[Export] public float MoveDampening { get; set; } = 20; // the higher the value, the less the player will slide
 
 	private Camera3D Camera { get; set; }
+	private Camera3D GunCam { get; set; }
 	private Vector3 GravityVec { get; set; }
 
 	public override void _Ready()
 	{
 		Camera = GetNode<Camera3D>("Camera3D");
+		GunCam = GetNode<Camera3D>("Camera3D/SubViewportContainer/SubViewport/Camera3D");
 
 		Input.MouseMode = MouseMode.Captured;
+	}
+
+	public override void _Process(double delta)
+	{
+		GunCam.GlobalTransform = Camera.GlobalTransform;
 	}
 
 	public override void _PhysicsProcess(double d)

@@ -1,20 +1,20 @@
-[gd_scene load_steps=15 format=3 uid="uid://rhtnbtuvctas"]
+[gd_scene load_steps=17 format=3 uid="uid://rhtnbtuvctas"]
 
 [ext_resource type="Script" path="res://Scripts/Root.cs" id="1_7rc4o"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_lsgow"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iwece"]
-sky_top_color = Color(0.462745, 1, 1, 1)
-sky_horizon_color = Color(0.808824, 1, 1, 1)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kml6o"]
+sky_top_color = Color(0.368627, 0.984314, 1, 1)
+sky_horizon_color = Color(0.785294, 0.996078, 1, 1)
 ground_bottom_color = Color(0.772549, 1, 1, 1)
-ground_horizon_color = Color(0.808824, 1, 1, 1)
+ground_horizon_color = Color(0.785294, 0.996078, 1, 1)
 
-[sub_resource type="Sky" id="Sky_m10rq"]
-sky_material = SubResource("ProceduralSkyMaterial_iwece")
+[sub_resource type="Sky" id="Sky_7gfy4"]
+sky_material = SubResource("ProceduralSkyMaterial_kml6o")
 
-[sub_resource type="Environment" id="Environment_kv877"]
+[sub_resource type="Environment" id="Environment_drsv7"]
 background_mode = 2
-sky = SubResource("Sky_m10rq")
+sky = SubResource("Sky_7gfy4")
 tonemap_mode = 2
 glow_enabled = true
 
@@ -35,6 +35,12 @@ data = PackedVector3Array(0, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0, 0.5, 
 
 [sub_resource type="PrismMesh" id="PrismMesh_irak3"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t0b1r"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mipwa"]
+material = SubResource("StandardMaterial3D_t0b1r")
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_d4kws"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m1sgo"]
@@ -43,7 +49,7 @@ data = PackedVector3Array(0, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0, 0.5, 
 script = ExtResource("1_7rc4o")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_kv877")
+environment = SubResource("Environment_drsv7")
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -84,17 +90,65 @@ script = ExtResource("1_lsgow")
 GravityForce = 7.0
 MoveDampening = 10.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, 0)
+cull_mask = 1048573
+current = true
+fov = 100.0
+
+[node name="Gun" type="Node3D" parent="Player/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.266, -0.12, -0.70452)
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Player/Camera3D/Gun"]
+transform = Transform3D(0.0281492, 0, 0, 0, 0.0234331, 0, 0, 0, 0.119745, 0, 0.0367303, 0)
+layers = 2
+mesh = SubResource("BoxMesh_mipwa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Camera3D/Gun"]
+transform = Transform3D(0.0579228, 0, 0, 0, 0.0578535, 0, 0, 0, 0.347316, 0, 0, 0)
+layers = 2
+mesh = SubResource("BoxMesh_mipwa")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Camera3D/Gun"]
+transform = Transform3D(0.0579228, 0, 0, 0, 0.0215415, -0.0898951, 0, 0.0183306, 0.105641, 0.0108085, -0.0451004, 0.0796742)
+layers = 2
+mesh = SubResource("BoxMesh_mipwa")
+skeleton = NodePath("../../..")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Player/Camera3D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="Player/Camera3D/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="Player/Camera3D/SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, 0)
+cull_mask = 2
+current = true
+fov = 60.0
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_d4kws")
 
-[node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, 0)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+[node name="PlayerCollision" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_m1sgo")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.11672, -4.51996)
+layers = 3
 light_energy = 4.0
+shadow_enabled = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.854722, 0.519087, 0, -0.519087, 0.854722, 0, 4.60946, 0)
+layers = 3
