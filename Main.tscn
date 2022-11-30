@@ -81,7 +81,7 @@ mesh = SubResource("PrismMesh_irak3")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 script = ExtResource("1_lsgow")
-GravityForce = 8.0
+GravityForce = 7.0
 MoveDampening = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
@@ -89,7 +89,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_d4kws")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57335, -0.594494)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
