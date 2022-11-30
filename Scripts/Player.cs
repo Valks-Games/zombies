@@ -8,12 +8,13 @@ namespace Zombies;
 public partial class Player : CharacterBody3D
 {
 	[Export] public float MouseSensitivity { get; set; } = 0.5f;
-	[Export] public float Gravity { get; set; } = 10;
+	[Export] public float GravityForce { get; set; } = 10;
 	[Export] public float JumpForce { get; set; } = 150;
 	[Export] public float MoveSpeed { get; set; } = 10;
 	[Export] public float MoveDampening { get; set; } = 20; // the higher the value, the less the player will slide
 
 	private Camera3D Camera { get; set; }
+	private Vector3 GravityVec { get; set; }
 
 	public override void _Ready()
 	{
@@ -38,19 +39,22 @@ public partial class Player : CharacterBody3D
 		// rotated to horizontal rotation to always move in the correct direction
 		var dir = new Vector3(h_input, 0, f_input).Rotated(Vector3.Up, h_rot).Normalized();
 
-		var gravityVec = new Vector3();
-
-		if (IsOnFloor() && Input.IsActionJustPressed("jump"))
+		if (IsOnFloor())
 		{
-			gravityVec = Vector3.Up * JumpForce;
+			GravityVec = Vector3.Zero;
+
+			if (Input.IsActionJustPressed("jump"))
+			{
+				GravityVec = Vector3.Up * JumpForce * delta;
+			}
 		}
 		else
 		{
-			gravityVec = Vector3.Down * Gravity * delta;
+			GravityVec += Vector3.Down * GravityForce * delta;
 		}
 
 		Velocity = Velocity.Lerp(dir * MoveSpeed, MoveDampening * delta);
-		Velocity += gravityVec;
+		Velocity += GravityVec;
 
 		MoveAndSlide();
 	}
