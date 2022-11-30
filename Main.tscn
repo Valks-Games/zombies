@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://rhtnbtuvctas"]
+[gd_scene load_steps=10 format=3 uid="uid://rhtnbtuvctas"]
 
 [ext_resource type="Script" path="res://Scripts/Root.cs" id="1_7rc4o"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_lsgow"]
@@ -8,20 +8,36 @@ albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1lpa0"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_wywfo"]
+size = Vector3(20, 1, 20)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_d4kws"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m1sgo"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_sm7ck"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ec8n0"]
+
 [node name="Root" type="Node3D"]
 script = ExtResource("1_7rc4o")
 
-[node name="Floor" type="MeshInstance3D" parent="."]
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_to1ny")
 mesh = SubResource("PlaneMesh_1lpa0")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_wywfo")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 script = ExtResource("1_lsgow")
+Gravity = 60.0
+JumpForce = 20.0
 MoveDampening = 10.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
@@ -38,3 +54,13 @@ shape = SubResource("CapsuleShape3D_m1sgo")
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.11672, -4.51996)
 light_energy = 4.0
+
+[node name="Box" type="StaticBody3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, -6)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Box"]
+mesh = SubResource("BoxMesh_sm7ck")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box"]
+shape = SubResource("BoxShape3D_ec8n0")

@@ -8,6 +8,8 @@ namespace Zombies;
 public partial class Player : CharacterBody3D
 {
 	[Export] public float MouseSensitivity { get; set; } = 0.5f;
+	[Export] public float Gravity { get; set; } = 10;
+	[Export] public float JumpForce { get; set; } = 150;
 	[Export] public float MoveSpeed { get; set; } = 10;
 	[Export] public float MoveDampening { get; set; } = 20; // the higher the value, the less the player will slide
 
@@ -34,9 +36,21 @@ public partial class Player : CharacterBody3D
 
 		// normalized to prevent "fast strafing movement" by holding down 2 movement keys at the same time
 		// rotated to horizontal rotation to always move in the correct direction
-		var dir = new Vector3(h_input, 0, f_input).Normalized().Rotated(Vector3.Up, h_rot);
+		var dir = new Vector3(h_input, 0, f_input).Rotated(Vector3.Up, h_rot).Normalized();
+
+		var gravityVec = new Vector3();
+
+		if (IsOnFloor() && Input.IsActionJustPressed("jump"))
+		{
+			gravityVec = Vector3.Up * JumpForce;
+		}
+		else
+		{
+			gravityVec = Vector3.Down * Gravity * delta;
+		}
 
 		Velocity = Velocity.Lerp(dir * MoveSpeed, MoveDampening * delta);
+		Velocity += gravityVec;
 
 		MoveAndSlide();
 	}
