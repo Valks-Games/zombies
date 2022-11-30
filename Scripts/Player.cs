@@ -60,6 +60,11 @@ public partial class Player : CharacterBody3D
 
 		// rotate camera vertically
 		Camera.RotateX((-motion.Relative.y * MouseSensitivity).ToRadians());
+
+		// prevent camera from looking too far up or down
+		var rotDeg = Camera.Rotation;
+		rotDeg.x = Mathf.Clamp(rotDeg.x, -89f.ToRadians(), 89f.ToRadians());
+		Camera.Rotation = rotDeg;
 	}
 
 	private void InputEventMouseButton(InputEvent @event)
