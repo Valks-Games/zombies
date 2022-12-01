@@ -47,7 +47,19 @@ public partial class Player : CharacterBody3D
 		{
 			if (RayCast.IsColliding())
 			{
-				GD.Print(RayCast.GetCollisionPoint());
+				var sphere = new MeshInstance3D();
+				sphere.Mesh = new SphereMesh() { Radius = 0.5f };
+				sphere.Position = RayCast.GetCollisionPoint();
+				
+				var timer = new Godot.Timer();
+				timer.WaitTime = 2;
+				timer.Autostart = true;
+				timer.Timeout += Timer_Timeout;
+
+				sphere.AddChild(timer);
+				
+
+				GetTree().Root.AddChild(sphere);
 			}
 
 			GunAnim.Play("fire");
@@ -80,6 +92,11 @@ public partial class Player : CharacterBody3D
 		Velocity += GravityVec;
 
 		MoveAndSlide();
+	}
+
+	private void Timer_Timeout()
+	{
+		GD.Print("Yes");
 	}
 
 	public override void _Input(InputEvent @event)
