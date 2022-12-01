@@ -8,6 +8,7 @@
 - [ ] Gun Shells
 - [ ] Camera Shake
 - [ ] Blender FPS Animations for Guns / Player models etc
+- [ ] Zombies
 - [ ] Multiplayer
 - [ ] Fix up graphics (anti-aliasing, glow, AO, etc)
 
