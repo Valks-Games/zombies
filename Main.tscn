@@ -141,6 +141,7 @@ mesh = SubResource("BoxMesh_mhqe8")
 shape = SubResource("ConcavePolygonShape3D_wr87x")
 
 [node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23.9296)
 script = ExtResource("1_lsgow")
 GravityForce = 7.0
 MoveDampening = 10.0
