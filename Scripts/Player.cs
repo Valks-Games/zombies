@@ -48,19 +48,19 @@ public partial class Player : CharacterBody3D
 			if (RayCast.IsColliding())
 			{
 				var sphere = new MeshInstance3D();
-				sphere.Mesh = new SphereMesh() { Radius = 0.5f };
-				sphere.Position = RayCast.GetCollisionPoint();
-				
-				var timer = new Godot.Timer();
-				timer.WaitTime = 2;
-				timer.Autostart = true;
-				timer.Timeout += () =>
-				{
-					sphere.QueueFree();
-				};
 
-				sphere.AddChild(timer);
-				
+				sphere.Mesh = new SphereMesh();
+				var sphereMesh = (SphereMesh)sphere.Mesh;
+
+				var radius = 0.2f;
+
+				sphereMesh.Radius = radius;
+				sphereMesh.Height = sphereMesh.Radius * 2;
+
+				sphere.Position = RayCast.GetCollisionPoint();
+
+				var timer = GetTree().CreateTimer(2.0f);
+				timer.Timeout += () => sphere.QueueFree();
 
 				GetTree().Root.AddChild(sphere);
 			}
