@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://rhtnbtuvctas"]
+[gd_scene load_steps=19 format=3 uid="uid://rhtnbtuvctas"]
 
 [ext_resource type="Script" path="res://Scripts/Root.cs" id="1_7rc4o"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_lsgow"]
@@ -18,28 +18,66 @@ sky = SubResource("Sky_7gfy4")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_to1ny"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y0jos"]
 albedo_color = Color(0, 0, 0, 1)
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_1lpa0"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_uvkij"]
+material = SubResource("StandardMaterial3D_y0jos")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wywfo"]
-size = Vector3(20, 1, 20)
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_r84e1"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_sm7ck"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pn71f"]
+albedo_color = Color(0, 0, 0, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ec8n0"]
+[sub_resource type="BoxMesh" id="BoxMesh_mhqe8"]
+material = SubResource("StandardMaterial3D_pn71f")
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_67qwn"]
-data = PackedVector3Array(0, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0, 0.5, 0.5, 0, 0.5, -0.5, 0.5, -0.5, 0.5, 0, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0, 0.5, -0.5, 0, 0.5, 0.5, -0.5, -0.5, -0.5, 0, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
-
-[sub_resource type="PrismMesh" id="PrismMesh_irak3"]
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_wr87x"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t0b1r"]
 albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_mipwa"]
 material = SubResource("StandardMaterial3D_t0b1r")
+
+[sub_resource type="Animation" id="Animation_x3lwy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/Gun/Node3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_d3pem"]
+resource_name = "fire"
+length = 0.08
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/Gun/Node3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0202992, 0.0792755),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0.0846609), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rosrm"]
+_data = {
+"RESET": SubResource("Animation_x3lwy"),
+"fire": SubResource("Animation_d3pem")
+}
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_d4kws"]
 
@@ -48,42 +86,59 @@ material = SubResource("StandardMaterial3D_t0b1r")
 [node name="Root" type="Node3D"]
 script = ExtResource("1_7rc4o")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_drsv7")
-
 [node name="Environment" type="Node3D" parent="."]
 
-[node name="Floor" type="StaticBody3D" parent="Environment"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_drsv7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Floor"]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_to1ny")
-mesh = SubResource("PlaneMesh_1lpa0")
-skeleton = NodePath("../../..")
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, 0.854722, 0.519087, 0, -0.519087, 0.854722, 0, 4.60946, 0)
+layers = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-shape = SubResource("BoxShape3D_wywfo")
+[node name="Plane" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
+mesh = SubResource("PlaneMesh_uvkij")
 
-[node name="Box" type="StaticBody3D" parent="Environment"]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, -6)
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Plane"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Box"]
-mesh = SubResource("BoxMesh_sm7ck")
-skeleton = NodePath("../../..")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Plane/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_r84e1")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Box"]
-shape = SubResource("BoxShape3D_ec8n0")
+[node name="Wall" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(60, 0, 0, 0, 4, 0, 0, 0, 1, 0, 2, 30)
+mesh = SubResource("BoxMesh_mhqe8")
 
-[node name="Ramp" type="StaticBody3D" parent="Environment"]
-transform = Transform3D(9.40175, 0, 0.848662, 0, 2.491, 0, -3.40691, 0, 2.34198, 0, 1.23954, 5.34321)
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Wall"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Ramp"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 1.19209e-07, 0, 1, 0, 0, 0)
-shape = SubResource("ConcavePolygonShape3D_67qwn")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_wr87x")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment/Ramp"]
-mesh = SubResource("PrismMesh_irak3")
+[node name="Wall2" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(60, 0, 0, 0, 4, 0, 0, 0, 1, 0, 2, -30)
+mesh = SubResource("BoxMesh_mhqe8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Wall2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall2/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_wr87x")
+
+[node name="Wall3" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(-2.57897e-06, 0, 1, 0, 4, 0, -59, 0, -4.37114e-08, 30, 2, 0)
+mesh = SubResource("BoxMesh_mhqe8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Wall3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall3/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_wr87x")
+
+[node name="Wall4" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(-2.57897e-06, 0, 1, 0, 4, 0, -59, 0, -4.37114e-08, -30, 2, 0)
+mesh = SubResource("BoxMesh_mhqe8")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Wall4"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Wall4/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_wr87x")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 script = ExtResource("1_lsgow")
@@ -96,25 +151,37 @@ cull_mask = 1048573
 current = true
 fov = 100.0
 
+[node name="RayCast" type="RayCast3D" parent="Player/Camera3D"]
+target_position = Vector3(0, 0, -200)
+
 [node name="Gun" type="Node3D" parent="Player/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.266, -0.12, -0.70452)
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Player/Camera3D/Gun"]
+[node name="Node3D" type="Node3D" parent="Player/Camera3D/Gun"]
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Player/Camera3D/Gun/Node3D"]
 transform = Transform3D(0.0281492, 0, 0, 0, 0.0234331, 0, 0, 0, 0.119745, 0, 0.0367303, 0)
 layers = 2
 mesh = SubResource("BoxMesh_mipwa")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Camera3D/Gun"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Camera3D/Gun/Node3D"]
 transform = Transform3D(0.0579228, 0, 0, 0, 0.0578535, 0, 0, 0, 0.347316, 0, 0, 0)
 layers = 2
 mesh = SubResource("BoxMesh_mipwa")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Camera3D/Gun"]
-transform = Transform3D(0.0579228, 0, 0, 0, 0.0215415, -0.0898951, 0, 0.0183306, 0.105641, 0.0108085, -0.0451004, 0.0796742)
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Camera3D/Gun/Node3D"]
+transform = Transform3D(0.0579228, 0, 0, 0, 0.0215415, -0.0898951, 0, 0.0183306, 0.105641, 0.0108085, -0.0451005, 0.0796742)
 layers = 2
 mesh = SubResource("BoxMesh_mipwa")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player/Camera3D/Gun"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_rosrm")
+}
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Player/Camera3D"]
 anchors_preset = 15
@@ -137,18 +204,9 @@ fov = 60.0
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_d4kws")
 
 [node name="PlayerCollision" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_m1sgo")
-
-[node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.11672, -4.51996)
-layers = 3
-light_energy = 4.0
-shadow_enabled = true
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.854722, 0.519087, 0, -0.519087, 0.854722, 0, 4.60946, 0)
-layers = 3

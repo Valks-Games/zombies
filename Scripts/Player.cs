@@ -15,12 +15,18 @@ public partial class Player : CharacterBody3D
 
 	private Camera3D Camera { get; set; }
 	private Camera3D GunCam { get; set; }
+	private RayCast3D RayCast { get; set; }
+	private Node3D Gun { get; set; }
+	private AnimationPlayer GunAnim { get; set; }
 	private Vector3 GravityVec { get; set; }
 
 	public override void _Ready()
 	{
 		Camera = GetNode<Camera3D>("Camera3D");
 		GunCam = GetNode<Camera3D>("Camera3D/SubViewportContainer/SubViewport/Camera3D");
+		Gun = GetNode<Node3D>("Camera3D/Gun");
+		GunAnim = GetNode<AnimationPlayer>("Camera3D/Gun/AnimationPlayer");
+		RayCast = GetNode<RayCast3D>("Camera3D/RayCast");
 
 		Input.MouseMode = MouseMode.Captured;
 	}
@@ -36,6 +42,16 @@ public partial class Player : CharacterBody3D
 
 		if (Input.IsActionJustPressed("ui_cancel"))
 			Input.MouseMode = MouseMode.Visible;
+
+		if (Input.IsActionPressed("shoot"))
+		{
+			if (RayCast.IsColliding())
+			{
+				GD.Print(RayCast.GetCollisionPoint());
+			}
+
+			GunAnim.Play("fire");
+		}
 
 		var h_rot = GlobalTransform.basis.GetEuler().y;
 
