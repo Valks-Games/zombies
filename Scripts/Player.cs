@@ -54,7 +54,10 @@ public partial class Player : CharacterBody3D
 				var timer = new Godot.Timer();
 				timer.WaitTime = 2;
 				timer.Autostart = true;
-				timer.Timeout += Timer_Timeout;
+				timer.Timeout += () =>
+				{
+					sphere.QueueFree();
+				};
 
 				sphere.AddChild(timer);
 				
@@ -92,11 +95,6 @@ public partial class Player : CharacterBody3D
 		Velocity += GravityVec;
 
 		MoveAndSlide();
-	}
-
-	private void Timer_Timeout()
-	{
-		GD.Print("Yes");
 	}
 
 	public override void _Input(InputEvent @event)
