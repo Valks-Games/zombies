@@ -184,6 +184,12 @@ libraries = {
 "": SubResource("AnimationLibrary_rosrm")
 }
 
+[node name="Label3D" type="Label3D" parent="Player/Camera3D/Gun"]
+transform = Transform3D(1, 0, 0, 0, 0.44868, 0.893693, 0, -0.893693, 0.44868, 0, 0.052, 0.135)
+layers = 2
+modulate = Color(0.490196, 1, 0.968627, 1)
+text = "10"
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Player/Camera3D"]
 anchors_preset = 15
 anchor_right = 1.0
@@ -198,7 +204,7 @@ size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="Player/Camera3D/SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, -23.93)
 cull_mask = 2
 current = true
 fov = 60.0
