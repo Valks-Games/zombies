@@ -7,6 +7,8 @@
 - [ ] Weapon Muzzle Flash
 - [ ] Weapon Shells
 - [ ] Blender to Godot Weapon Animations
+- [ ] Player Models
+- [ ] Zombies and everything that comes with zombies
 - [ ] Multiplayer
 - [ ] Configured World Environment
 
