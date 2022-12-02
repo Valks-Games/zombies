@@ -12,7 +12,11 @@ public partial class Player : CharacterBody3D
 	[Export] public float   JumpForce                { get; set; } = 150;
 	[Export] public float   MoveSpeed                { get; set; } = 10;
 	[Export] public float   MoveDampening            { get; set; } = 20; // the higher the value, the less the player will slide
-											   
+	
+	[Export] public Vector2 Spray { get; set; } // the guns spray offset
+	[Export] public Vector3 Recoil { get; set; }
+	[Export] public float ReturnSpeed { get; set; } = 1;
+	
 	private Camera3D        Camera                   { get; set; }
 	private Camera3D        GunCam                   { get; set; }
 	private RayCast3D       RayCast                  { get; set; }
@@ -20,9 +24,8 @@ public partial class Player : CharacterBody3D
 	private AnimationPlayer GunAnim                  { get; set; }
 	private Vector3         GravityVec               { get; set; }
 
-	[Export] public Vector2 Spray { get; set; } // the guns spray offset
-	[Export] public Vector3 Recoil { get; set; }
-	[Export] public float ReturnSpeed { get; set; } = 1;
+	private Vector3 CameraTarget { get; set; }
+	private Vector3 CameraOffset { get; set; }
 
 	public override void _Ready()
 	{
@@ -47,8 +50,8 @@ public partial class Player : CharacterBody3D
 		if (Input.IsActionJustPressed("ui_cancel"))
 			Input.MouseMode = MouseMode.Visible;
 
-		offset = offset.Lerp(Vector3.Zero, delta * ReturnSpeed);
-		Camera.Rotation = target + offset;
+		CameraOffset = CameraOffset.Lerp(Vector3.Zero, delta * ReturnSpeed);
+		Camera.Rotation = CameraTarget + CameraOffset;
 
 		if (Input.IsActionPressed("shoot"))
 		{
@@ -59,7 +62,7 @@ public partial class Player : CharacterBody3D
 			var recoilY = Math.RandomRange(-Recoil.y * delta, Recoil.y * delta);
 			var recoilZ = Math.RandomRange(-Recoil.z * delta, Recoil.z * delta);
 
-			offset += new Vector3(Recoil.x * delta, recoilY, recoilZ);
+			CameraOffset += new Vector3(Recoil.x * delta, recoilY, recoilZ);
 
 			if (RayCast.IsColliding())
 			{
@@ -122,9 +125,6 @@ public partial class Player : CharacterBody3D
 		InputEventMouseButton(@event);
 	}
 
-	private Vector3 target;
-	private Vector3 offset;
-
 	private void InputEventMouseMotion(InputEvent @event)
 	{
 		if (@event is not InputEventMouseMotion motion)
@@ -133,7 +133,7 @@ public partial class Player : CharacterBody3D
 		if (Input.MouseMode != MouseMode.Captured)
 			return;
 
-		target += new Vector3(-motion.Relative.y * MouseSensitivity, -motion.Relative.x * MouseSensitivity, 0);
+		CameraTarget += new Vector3(-motion.Relative.y * MouseSensitivity, -motion.Relative.x * MouseSensitivity, 0);
 
 		// prevent camera from looking too far up or down
 		var rotDeg = Camera.Rotation;
