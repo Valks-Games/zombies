@@ -3,6 +3,12 @@
 - [x] Weapon does not clip into walls
 - [x] Weapon recoil / spray
 - [ ] Weapon ADS
+- [ ] Weapon Smoke
+- [ ] Weapon Muzzle Flash
+- [ ] Weapon Shells
+- [ ] Blender to Godot Weapon Animations
+- [ ] Multiplayer
+- [ ] Configured World Environment
 
 ## Issues
 - Screen Space Reflections (SSR) makes the gun invisible when applied to the gun camera (work-a-round would be to make the gun camera have a separate environment from the world environment with SSR disabled) (but I still want to know why SSR is doing this in the first place)
