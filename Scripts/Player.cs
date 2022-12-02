@@ -8,7 +8,7 @@ public partial class Player : CharacterBody3D
 	[Export] public float   MoveSpeed                { get; set; } = 10;
 	[Export] public float   MoveDampening            { get; set; } = 20; // the higher the value, the less the player will slide
 	
-	private Camera3D        Camera                   { get; set; }
+	public  Camera3D        Camera                   { get; set; }
 	private Camera3D        GunCam                   { get; set; }
 	public  RayCast3D       RayCast                  { get; set; }
 	private Gun             Gun                      { get; set; }
@@ -38,9 +38,6 @@ public partial class Player : CharacterBody3D
 
 		Gun.Update(delta);
 		Camera.Rotation = CameraTarget + CameraOffset;
-
-		if (Input.IsActionPressed("shoot"))
-			Gun.Shoot(delta);
 
 		//var h_rot = GlobalTransform.basis.GetEuler().y;
 		var h_rot = Camera.Basis.GetEuler().y;

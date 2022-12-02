@@ -158,11 +158,16 @@ fov = 100.0
 target_position = Vector3(0, 0, -200)
 
 [node name="Gun" type="Node3D" parent="Player/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.266, -0.12, -0.70452)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, -0.238)
 script = ExtResource("3_oasux")
 Spray = Vector2(5, 5)
 Recoil = Vector3(0.5, 0.2, 0.1)
 ReturnSpeed = 2.0
+RestPosition = Vector3(0.266, -0.12, -0.70452)
+ADS_Position = Vector3(0, -0.06, -0.238)
+RestFOV = 100.0
+ADS_FOV = 80.0
+ADS_Acceleration = 10.0
 
 [node name="Node3D" type="Node3D" parent="Player/Camera3D/Gun"]
 
@@ -192,6 +197,7 @@ libraries = {
 
 [node name="Label3D" type="Label3D" parent="Player/Camera3D/Gun"]
 transform = Transform3D(1, 0, 0, 0, 0.44868, 0.893693, 0, -0.893693, 0.44868, 0, 0.052, 0.135)
+visible = false
 layers = 2
 modulate = Color(0.490196, 1, 0.968627, 1)
 text = "10"
