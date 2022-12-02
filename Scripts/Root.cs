@@ -15,11 +15,21 @@ public partial class Root : Node
 {
 	public override void _Ready()
 	{
-
+		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
+		if (Input.IsActionJustPressed("ui_cancel"))
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+	}
 
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is not InputEventMouseButton button)
+			return;
+
+		if (button.ButtonIndex == MouseButton.Left && Input.MouseMode == Input.MouseModeEnum.Visible)
+			Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
 }

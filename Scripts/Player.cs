@@ -1,8 +1,3 @@
-using static Godot.DisplayServer;
-using System;
-using MouseMode = Godot.Input.MouseModeEnum;
-using ENet;
-
 namespace Zombies;
 
 public partial class Player : CharacterBody3D
@@ -34,8 +29,6 @@ public partial class Player : CharacterBody3D
 		Gun     = GetNode<Node3D>         ("Camera3D/Gun");
 		GunAnim = GetNode<AnimationPlayer>("Camera3D/Gun/AnimationPlayer");
 		RayCast = GetNode<RayCast3D>      ("Camera3D/RayCast");
-
-		Input.MouseMode = MouseMode.Captured;
 	}
 
 	public override void _Process(double delta)
@@ -46,9 +39,6 @@ public partial class Player : CharacterBody3D
 	public override void _PhysicsProcess(double d)
 	{
 		var delta = (float)d;
-
-		if (Input.IsActionJustPressed("ui_cancel"))
-			Input.MouseMode = MouseMode.Visible;
 
 		CameraOffset = CameraOffset.Lerp(Vector3.Zero, delta * ReturnSpeed);
 		Camera.Rotation = CameraTarget + CameraOffset;
@@ -62,7 +52,10 @@ public partial class Player : CharacterBody3D
 			var recoilY = Math.RandomRange(-Recoil.y * delta, Recoil.y * delta);
 			var recoilZ = Math.RandomRange(-Recoil.z * delta, Recoil.z * delta);
 
-			CameraOffset += new Vector3(Recoil.x * delta, recoilY, recoilZ);
+			var recoilVec = new Vector3(Recoil.x * delta, recoilY, recoilZ);
+
+			CameraOffset += recoilVec;
+			CameraTarget += new Vector3(recoilVec.x / 2, 0, 0);
 
 			if (RayCast.IsColliding())
 			{
@@ -106,16 +99,10 @@ public partial class Player : CharacterBody3D
 
 	public override void _Input(InputEvent @event)
 	{
-		InputEventMouseMotion(@event);
-		InputEventMouseButton(@event);
-	}
-
-	private void InputEventMouseMotion(InputEvent @event)
-	{
 		if (@event is not InputEventMouseMotion motion)
 			return;
 
-		if (Input.MouseMode != MouseMode.Captured)
+		if (Input.MouseMode != Input.MouseModeEnum.Captured)
 			return;
 
 		CameraTarget += new Vector3(-motion.Relative.y * MouseSensitivity, -motion.Relative.x * MouseSensitivity, 0);
@@ -124,14 +111,5 @@ public partial class Player : CharacterBody3D
 		var rotDeg = Camera.Rotation;
 		rotDeg.x = Mathf.Clamp(rotDeg.x, -89f.ToRadians(), 89f.ToRadians());
 		Camera.Rotation = rotDeg;
-	}
-
-	private void InputEventMouseButton(InputEvent @event)
-	{
-		if (@event is not InputEventMouseButton button)
-			return;
-
-		if (button.ButtonIndex == MouseButton.Left && Input.MouseMode == MouseMode.Visible)
-			Input.MouseMode = MouseMode.Captured;
 	}
 }
