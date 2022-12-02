@@ -19,6 +19,11 @@ public partial class Gun : Node
 		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 	}
 
+	public void Update(float delta)
+	{
+		Player.CameraOffset = Player.CameraOffset.Lerp(Vector3.Zero, delta * ReturnSpeed);
+	}
+
 	public void Shoot(float delta)
 	{
 		Player.RayCast.Rotation = Vector3.Zero;
@@ -31,7 +36,7 @@ public partial class Gun : Node
 		var recoilVec = new Vector3(Recoil.x * delta, recoilY, recoilZ);
 
 		Player.CameraOffset += recoilVec;
-		//CameraTarget += new Vector3(recoilVec.x / 2, 0, 0); // Only return halfway
+		//Player.CameraTarget += new Vector3(recoilVec.x / 2, 0, 0); // Only return halfway
 
 		if (Player.RayCast.IsColliding())
 		{

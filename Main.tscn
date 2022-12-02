@@ -147,9 +147,6 @@ script = ExtResource("1_lsgow")
 MouseSensitivity = 0.005
 GravityForce = 7.0
 MoveDampening = 10.0
-Spray = Vector2(5, 5)
-Recoil = Vector3(0.5, 0.2, 0.1)
-ReturnSpeed = 2.0
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, 0)

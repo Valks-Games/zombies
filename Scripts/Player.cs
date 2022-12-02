@@ -36,7 +36,7 @@ public partial class Player : CharacterBody3D
 	{
 		var delta = (float)d;
 
-		CameraOffset = CameraOffset.Lerp(Vector3.Zero, delta * Gun.ReturnSpeed);
+		Gun.Update(delta);
 		Camera.Rotation = CameraTarget + CameraOffset;
 
 		if (Input.IsActionPressed("shoot"))
