@@ -12,10 +12,16 @@ public partial class Gun : Node3D
 	[Export] public float RestFOV_Gun { get; set; }
 	[Export] public float ADS_FOV_Gun { get; set; }
 	[Export] public float ADS_Acceleration { get; set; }
+	[Export] public int ClipAmmo { get; set; }
+	[Export] public int Clips { get; set; }
 
 	private Player Player { get; set; }
 	private AnimationPlayer AnimationPlayer { get; set; }
 	private bool ADS_Toggle { get; set; }
+	private int CurrentClipAmmo { get; set; }
+	private int CurrentClips { get; set; }
+	private Label3D ClipAmmoLabel { get; set; }
+	private bool Reloading { get; set; }
 
 	public void Init(Player player)
 	{
@@ -25,7 +31,10 @@ public partial class Gun : Node3D
 	public override void _Ready()
 	{
 		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		ClipAmmoLabel = GetNode<Label3D>("ClipAmmo");
 		Position = RestPosition;
+		CurrentClips = Clips;
+		SetClipAmmo(ClipAmmo);
 	}
 
 	public void Update(float delta)
@@ -47,10 +56,20 @@ public partial class Gun : Node3D
 			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, RestFOV_World, ADS_Acceleration * delta);
 			Player.GunCam.Fov = Mathf.Lerp(Player.GunCam.Fov, RestFOV_Gun, ADS_Acceleration * delta);
 		}
+
+		if (Input.IsActionJustPressed("reload"))
+		{
+			Reload();
+		}
 	}
 
 	private void Shoot(float delta)
 	{
+		if (CurrentClipAmmo == 0)
+			return;
+
+		SetClipAmmo(CurrentClipAmmo - 1);
+
 		Player.RayCast.Rotation = Vector3.Zero;
 		Player.RayCast.RotateX(Math.RandomRange(-Spray.x * delta, Spray.x * delta));
 		Player.RayCast.RotateY(Math.RandomRange(-Spray.y * delta, Spray.y * delta));
@@ -71,5 +90,36 @@ public partial class Gun : Node3D
 
 		// play gun animation
 		AnimationPlayer.Play("fire");
+	}
+
+	private void Reload()
+	{
+		if (Reloading)
+			return;
+
+		if (CurrentClips == 0)
+			return;
+
+		CurrentClips -= 1;
+
+		Reloading = true;
+		AnimationPlayer.Play("reload");
+	}
+
+	private void SetClipAmmo(int v)
+	{
+		CurrentClipAmmo = v;
+		ClipAmmoLabel.Text = $"{v}";
+	}
+
+	private void _on_animation_player_animation_finished(string animation)
+	{
+		switch (animation)
+		{
+			case "reload":
+				SetClipAmmo(ClipAmmo);
+				Reloading = false;
+				break;
+		}
 	}
 }
