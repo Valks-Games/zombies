@@ -21,7 +21,8 @@ public partial class Player : CharacterBody3D
 	private Vector3         GravityVec               { get; set; }
 
 	[Export] public Vector2 Spray { get; set; } // the guns spray offset
-	[Export] public float Recoil { get; set; }
+	[Export] public Vector3 Recoil { get; set; }
+	[Export] public float ReturnSpeed { get; set; } = 1;
 
 	public override void _Ready()
 	{
@@ -46,13 +47,19 @@ public partial class Player : CharacterBody3D
 		if (Input.IsActionJustPressed("ui_cancel"))
 			Input.MouseMode = MouseMode.Visible;
 
+		offset = offset.Lerp(Vector3.Zero, delta * ReturnSpeed);
+		Camera.Rotation = target + offset;
+
 		if (Input.IsActionPressed("shoot"))
 		{
 			RayCast.Rotation = Vector3.Zero;
 			RayCast.RotateX(Math.RandomRange(-Spray.x * delta, Spray.x * delta));
 			RayCast.RotateY(Math.RandomRange(-Spray.y * delta, Spray.y * delta));
 
-			Camera.RotateX(Recoil * delta);
+			var recoilY = Math.RandomRange(-Recoil.y * delta, Recoil.y * delta);
+			var recoilZ = Math.RandomRange(-Recoil.z * delta, Recoil.z * delta);
+
+			offset += new Vector3(Recoil.x * delta, recoilY, recoilZ);
 
 			if (RayCast.IsColliding())
 			{
@@ -79,7 +86,8 @@ public partial class Player : CharacterBody3D
 			GunAnim.Play("fire");
 		}
 
-		var h_rot = GlobalTransform.basis.GetEuler().y;
+		//var h_rot = GlobalTransform.basis.GetEuler().y;
+		var h_rot = Camera.Basis.GetEuler().y;
 
 		var f_input = Input.GetActionStrength("move_backward") - Input.GetActionStrength("move_forward");
 		var h_input = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
@@ -114,6 +122,9 @@ public partial class Player : CharacterBody3D
 		InputEventMouseButton(@event);
 	}
 
+	private Vector3 target;
+	private Vector3 offset;
+
 	private void InputEventMouseMotion(InputEvent @event)
 	{
 		if (@event is not InputEventMouseMotion motion)
@@ -122,11 +133,7 @@ public partial class Player : CharacterBody3D
 		if (Input.MouseMode != MouseMode.Captured)
 			return;
 
-		// rotate player horizontally
-		RotateY(-motion.Relative.x * MouseSensitivity);
-
-		// rotate camera vertically
-		Camera.RotateX(-motion.Relative.y * MouseSensitivity);
+		target += new Vector3(-motion.Relative.y * MouseSensitivity, -motion.Relative.x * MouseSensitivity, 0);
 
 		// prevent camera from looking too far up or down
 		var rotDeg = Camera.Rotation;
