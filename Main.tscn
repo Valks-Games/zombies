@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://rhtnbtuvctas"]
+[gd_scene load_steps=20 format=3 uid="uid://rhtnbtuvctas"]
 
 [ext_resource type="Script" path="res://Scripts/Root.cs" id="1_7rc4o"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_lsgow"]
+[ext_resource type="Script" path="res://Scripts/Gun.cs" id="3_oasux"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kml6o"]
 sky_top_color = Color(0.368627, 0.984314, 1, 1)
@@ -161,6 +162,10 @@ target_position = Vector3(0, 0, -200)
 
 [node name="Gun" type="Node3D" parent="Player/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.266, -0.12, -0.70452)
+script = ExtResource("3_oasux")
+Spray = Vector2(5, 5)
+Recoil = Vector3(0.5, 0.2, 0.1)
+ReturnSpeed = 2.0
 
 [node name="Node3D" type="Node3D" parent="Player/Camera3D/Gun"]
 
