@@ -9,7 +9,7 @@ public partial class Player : CharacterBody3D
 	[Export] public float   MoveDampening            { get; set; } = 20; // the higher the value, the less the player will slide
 	
 	public  Camera3D        Camera                   { get; set; }
-	private Camera3D        GunCam                   { get; set; }
+	public  Camera3D        GunCam                   { get; set; }
 	public  RayCast3D       RayCast                  { get; set; }
 	private Gun             Gun                      { get; set; }
 	private Vector3         GravityVec               { get; set; }

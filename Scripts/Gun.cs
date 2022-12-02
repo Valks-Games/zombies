@@ -7,8 +7,10 @@ public partial class Gun : Node3D
 	[Export] public float ReturnSpeed { get; set; } = 1;
 	[Export] public Vector3 RestPosition { get; set; }
 	[Export] public Vector3 ADS_Position { get; set; }
-	[Export] public float RestFOV { get; set; }
-	[Export] public float ADS_FOV { get; set; }
+	[Export] public float RestFOV_World { get; set; }
+	[Export] public float ADS_FOV_World { get; set; }
+	[Export] public float RestFOV_Gun { get; set; }
+	[Export] public float ADS_FOV_Gun { get; set; }
 	[Export] public float ADS_Acceleration { get; set; }
 
 	private Player Player { get; set; }
@@ -36,12 +38,14 @@ public partial class Gun : Node3D
 		if (Input.IsActionPressed("ads"))
 		{
 			Position = Position.Lerp(ADS_Position, ADS_Acceleration * delta);
-			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, ADS_FOV, ADS_Acceleration * delta);
+			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, ADS_FOV_World, ADS_Acceleration * delta);
+			Player.GunCam.Fov = Mathf.Lerp(Player.GunCam.Fov, ADS_FOV_Gun, ADS_Acceleration * delta);
 		}
 		else
 		{
 			Position = Position.Lerp(RestPosition, ADS_Acceleration * delta);
-			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, RestFOV, ADS_Acceleration * delta);
+			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, RestFOV_World, ADS_Acceleration * delta);
+			Player.GunCam.Fov = Mathf.Lerp(Player.GunCam.Fov, RestFOV_Gun, ADS_Acceleration * delta);
 		}
 	}
 

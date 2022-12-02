@@ -158,15 +158,17 @@ fov = 100.0
 target_position = Vector3(0, 0, -200)
 
 [node name="Gun" type="Node3D" parent="Player/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, -0.238)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0599999, -0.546621)
 script = ExtResource("3_oasux")
 Spray = Vector2(5, 5)
 Recoil = Vector3(0.5, 0.2, 0.1)
 ReturnSpeed = 2.0
 RestPosition = Vector3(0.266, -0.12, -0.70452)
-ADS_Position = Vector3(0, -0.06, -0.238)
-RestFOV = 100.0
-ADS_FOV = 80.0
+ADS_Position = Vector3(0, -0.0599999, -0.546621)
+RestFOV_World = 100.0
+ADS_FOV_World = 80.0
+RestFOV_Gun = 75.0
+ADS_FOV_Gun = 30.0
 ADS_Acceleration = 10.0
 
 [node name="Node3D" type="Node3D" parent="Player/Camera3D/Gun"]
@@ -219,7 +221,6 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, -23.93)
 cull_mask = 2
 current = true
-fov = 60.0
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
