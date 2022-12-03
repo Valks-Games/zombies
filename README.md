@@ -4,6 +4,7 @@
 - [x] Weapon recoil / spray
 - [x] Weapon ADS
 - [x] Weapon Ammo
+- [x] Weapon Sway
 - [ ] Weapon Smoke
 - [ ] Weapon Muzzle Flash
 - [ ] Weapon Shells
