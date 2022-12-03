@@ -14,6 +14,7 @@ public partial class Gun : Node3D
 	[Export] public float ADS_Acceleration { get; set; }
 	[Export] public int ClipAmmo { get; set; }
 	[Export] public int Clips { get; set; }
+	[Export] public float FireRate { get; set; }
 
 	private Player Player { get; set; }
 	private AnimationPlayer AnimationPlayer { get; set; }
@@ -43,6 +44,8 @@ public partial class Gun : Node3D
 	{
 		Player.CameraOffset = Player.CameraOffset.Lerp(Vector3.Zero, delta * ReturnSpeed);
 
+		Sway(delta);
+
 		if (Input.IsActionPressed("shoot"))
 			Shoot(delta);
 
@@ -61,6 +64,22 @@ public partial class Gun : Node3D
 
 		if (Input.IsActionJustPressed("reload"))
 			Reload();
+	}
+
+	private void Sway(float delta)
+	{
+		Rotation = Rotation.Lerp(Vector3.Zero, delta * (Input.IsActionPressed("ads") ? 10 : 5));
+		
+		if (!Input.IsActionPressed("ads"))
+		{
+			RotateX(-Player.MouseInput.y * 0.001f);
+			RotateY(-Player.MouseInput.x * 0.001f);
+
+			var rot = Rotation;
+			rot.x = Mathf.Clamp(Rotation.x, -0.3f, 0.3f);
+			rot.y = Mathf.Clamp(Rotation.y, -0.3f, 0.3f);
+			Rotation = rot;
+		}
 	}
 
 	private void Shoot(float delta)
@@ -94,7 +113,7 @@ public partial class Gun : Node3D
 			
 		Tween = GetTree().CreateTween();
 		Tween.TweenProperty(this, "position", pos + new Vector3(0, 0, 0.1f), 0.01f);
-		Tween.TweenProperty(this, "position", pos, 0.1f);
+		Tween.TweenProperty(this, "position", pos, FireRate);
 		Tween.Finished += () => WeaponRecoilAnimationActive = false;
 		Tween.Play();
 	}

@@ -14,6 +14,8 @@ public partial class Player : CharacterBody3D
 	private Gun             Gun                      { get; set; }
 	private Vector3         GravityVec               { get; set; }
 
+	public Vector2 MouseInput { get; set; }
+
 	public Vector3 CameraTarget { get; set; }
 	public Vector3 CameraOffset { get; set; }
 
@@ -76,6 +78,8 @@ public partial class Player : CharacterBody3D
 
 		if (Input.MouseMode != Input.MouseModeEnum.Captured)
 			return;
+
+		MouseInput = new Vector2(motion.Relative.x, motion.Relative.y);
 
 		CameraTarget += new Vector3(-motion.Relative.y * MouseSensitivity, -motion.Relative.x * MouseSensitivity, 0);
 	
