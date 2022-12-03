@@ -100,7 +100,7 @@ _data = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rs0eq"]
 transparency = 1
-albedo_color = Color(0.996078, 1, 0.568627, 0.0156863)
+albedo_color = Color(0.996078, 1, 0.568627, 0.00392157)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_f28pc"]
 material = SubResource("StandardMaterial3D_rs0eq")
@@ -115,30 +115,27 @@ RestPosition = Vector3(0.266, -0.12, -0.70452)
 ADS_Position = Vector3(0, -0.0599999, -0.546621)
 RestFOV_World = 100.0
 ADS_FOV_World = 80.0
-RestFOV_Gun = 75.0
-ADS_FOV_Gun = 30.0
 ADS_Acceleration = 10.0
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.0281492, 0, 0, 0, 0.0234331, 0, 0, 0, 0.119745, 0, 0.0367303, 0)
-layers = 2
+cast_shadow = 0
 mesh = SubResource("BoxMesh_mipwa")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.0579228, 0, 0, 0, 0.0578535, 0, 0, 0, 0.347316, 0, 0, 0)
-layers = 2
+cast_shadow = 0
 mesh = SubResource("BoxMesh_mipwa")
 skeleton = NodePath("../../..")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.0579228, 0, 0, 0, 0.0215415, -0.0898951, 0, 0.0183306, 0.105641, 0, -0.045, 0.08)
-layers = 2
+cast_shadow = 0
 mesh = SubResource("BoxMesh_mipwa")
 skeleton = NodePath("../../..")
 
 [node name="ClipAmmo" type="Label3D" parent="."]
 transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 0.0216802, 0.181)
-layers = 2
 modulate = Color(0.490196, 1, 0.968627, 1)
 text = "10"
 
@@ -152,13 +149,12 @@ visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MuzzleFlash"]
 transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, -0.211003)
-layers = 2
+cast_shadow = 0
 mesh = SubResource("PlaneMesh_f28pc")
 skeleton = NodePath("../..")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="MuzzleFlash"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.262165)
-layers = 3
 light_color = Color(0.968627, 1, 0.921569, 1)
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

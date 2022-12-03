@@ -9,8 +9,6 @@ public partial class Gun : Node3D
 	[Export] public Vector3 ADS_Position { get; set; }
 	[Export] public float RestFOV_World { get; set; }
 	[Export] public float ADS_FOV_World { get; set; }
-	[Export] public float RestFOV_Gun { get; set; }
-	[Export] public float ADS_FOV_Gun { get; set; }
 	[Export] public float ADS_Acceleration { get; set; }
 	[Export] public int ClipAmmo { get; set; }
 	[Export] public int Clips { get; set; }
@@ -65,13 +63,11 @@ public partial class Gun : Node3D
 		{
 			Position = Position.Lerp(ADS_Position, ADS_Acceleration * delta);
 			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, ADS_FOV_World, ADS_Acceleration * delta);
-			Player.GunCam.Fov = Mathf.Lerp(Player.GunCam.Fov, ADS_FOV_Gun, ADS_Acceleration * delta);
 		}
 		else
 		{
 			Position = Position.Lerp(RestPosition, ADS_Acceleration * delta);
 			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, RestFOV_World, ADS_Acceleration * delta);
-			Player.GunCam.Fov = Mathf.Lerp(Player.GunCam.Fov, RestFOV_Gun, ADS_Acceleration * delta);
 		}
 	}
 

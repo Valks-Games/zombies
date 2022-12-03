@@ -1,6 +1,6 @@
 namespace Zombies;
 
-public partial class Zombie : Node
+public partial class Zombie : Node3D
 {
 	private AnimationPlayer AnimationPlayer { get; set; }
 
@@ -10,8 +10,9 @@ public partial class Zombie : Node
 		AnimationPlayer.Play("walk");
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
+		if (Player.Instance != null)
+			LookAt(Player.Instance.Position, Vector3.Up);
 	}
 }

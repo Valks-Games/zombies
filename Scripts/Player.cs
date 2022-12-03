@@ -2,6 +2,8 @@ namespace Zombies;
 
 public partial class Player : CharacterBody3D
 {
+	public static Player Instance { get; set; }
+
 	[Export] public float   MouseSensitivity         { get; set; } = 0.5f;
 	[Export] public float   GravityForce             { get; set; } = 10;
 	[Export] public float   JumpForce                { get; set; } = 150;
@@ -9,7 +11,6 @@ public partial class Player : CharacterBody3D
 	[Export] public float   MoveDampening            { get; set; } = 20; // the higher the value, the less the player will slide
 	
 	public  Camera3D        Camera                   { get; set; }
-	public  Camera3D        GunCam                   { get; set; }
 	public  RayCast3D       RayCast                  { get; set; }
 	private Gun             Gun                      { get; set; }
 	private Vector3         GravityVec               { get; set; }
@@ -21,17 +22,13 @@ public partial class Player : CharacterBody3D
 
 	public override void _Ready()
 	{
+		Instance = this;
+
 		Camera  = GetNode<Camera3D>       ("Camera3D");
-		GunCam  = GetNode<Camera3D>       ("Camera3D/SubViewportContainer/SubViewport/Camera3D");
 		RayCast = GetNode<RayCast3D>      ("Camera3D/RayCast");
 		Gun     = GetNode<Gun>            ("Camera3D/Gun");
 
 		Gun.Init(this);
-	}
-
-	public override void _Process(double delta)
-	{
-		GunCam.GlobalTransform = Camera.GlobalTransform;
 	}
 
 	public override void _PhysicsProcess(double d)
