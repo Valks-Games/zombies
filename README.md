@@ -14,13 +14,24 @@
 - [ ] Smoke
 - [ ] Shells
 - [ ] Blender to Godot Weapon Animations
+- [ ] Headshots / bodyshots / arm shots
+- [ ] True Iron Sights
+- [ ] Rectile
+- [ ] Weapon switching
+- [ ] Pistol
+- [ ] Shotgun
+- [ ] Sniper Rifle
+- [ ] SMG
+- [ ] LMG
 
 ### World
 - [x] Configured World Environment
 - [ ] Game Level
 
 ### Zombies
-- [ ] Zombies and everything that comes with zombies
+- [x] Models
+- [ ] Animation transitions
+- [ ] Pathfinding
 
 ### Multiplayer
 - [ ] Multiplayer
