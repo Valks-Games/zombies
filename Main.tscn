@@ -1,8 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://rhtnbtuvctas"]
+[gd_scene load_steps=17 format=3 uid="uid://rhtnbtuvctas"]
 
 [ext_resource type="Script" path="res://Scripts/Root.cs" id="1_7rc4o"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_lsgow"]
 [ext_resource type="PackedScene" uid="uid://b8et43l2djrlf" path="res://Gun.tscn" id="3_pydms"]
+[ext_resource type="PackedScene" uid="uid://cpbj4e4i0xex0" path="res://Zombie.glb" id="4_uk7ly"]
+[ext_resource type="Script" path="res://Scripts/Zombie.cs" id="5_kp7sw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kml6o"]
 sky_top_color = Color(0.368627, 0.984314, 1, 1)
@@ -38,6 +40,7 @@ material = SubResource("StandardMaterial3D_pn71f")
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_d4kws"]
+height = 3.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m1sgo"]
 
@@ -99,17 +102,17 @@ mesh = SubResource("BoxMesh_mhqe8")
 shape = SubResource("ConcavePolygonShape3D_wr87x")
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -23.9296)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.16635)
 script = ExtResource("1_lsgow")
 MouseSensitivity = 0.005
 GravityForce = 7.0
 MoveDampening = 10.0
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, 0)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2.15996, 0.137482)
 cull_mask = 1048573
 current = true
-fov = 100.0
+near = 0.001
 
 [node name="RayCast" type="RayCast3D" parent="Player/Camera3D"]
 target_position = Vector3(0, 0, -200)
@@ -134,14 +137,17 @@ size = Vector2i(1920, 1080)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="Player/Camera3D/SubViewportContainer/SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.573, -23.93)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 1.573, -23.93)
 cull_mask = 2
 current = true
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 mesh = SubResource("CapsuleMesh_d4kws")
 
 [node name="PlayerCollision" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_m1sgo")
+
+[node name="Zombie" parent="." instance=ExtResource("4_uk7ly")]
+script = ExtResource("5_kp7sw")
