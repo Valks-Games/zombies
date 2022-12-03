@@ -4,6 +4,7 @@
 - [x] Weapon recoil / spray
 - [x] Weapon ADS
 - [x] Weapon Ammo
+- [x] Weapon Sway
 - [ ] Weapon Smoke
 - [ ] Weapon Muzzle Flash
 - [ ] Weapon Shells
@@ -12,10 +13,6 @@
 - [ ] Zombies and everything that comes with zombies
 - [ ] Multiplayer
 - [ ] Configured World Environment
-
-## Issues
-- Screen Space Reflections (SSR) makes the gun invisible when applied to the gun camera (work-a-round would be to make the gun camera have a separate environment from the world environment with SSR disabled) (but I still want to know why SSR is doing this in the first place)
-- Weapon kickback animation lerps to rest position while in ADS
 
 Preview is out-of-date
 
