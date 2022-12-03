@@ -22,6 +22,8 @@ public partial class Gun : Node3D
 	private int CurrentClips { get; set; }
 	private Label3D ClipAmmoLabel { get; set; }
 	private bool Reloading { get; set; }
+	private Tween Tween { get; set; }
+	private bool WeaponRecoilAnimationActive { get; set; }
 
 	public void Init(Player player)
 	{
@@ -58,14 +60,12 @@ public partial class Gun : Node3D
 		}
 
 		if (Input.IsActionJustPressed("reload"))
-		{
 			Reload();
-		}
 	}
 
 	private void Shoot(float delta)
 	{
-		if (CurrentClipAmmo == 0)
+		if (CurrentClipAmmo == 0 || WeaponRecoilAnimationActive)
 			return;
 
 		SetClipAmmo(CurrentClipAmmo - 1);
@@ -88,8 +88,15 @@ public partial class Gun : Node3D
 			Geometry.CreateSphere(Player.RayCast.GetCollisionPoint(), 0.2f, 2);
 		}
 
-		// play gun animation
-		AnimationPlayer.Play("fire");
+		WeaponRecoilAnimationActive = true;
+
+		var pos = Input.IsActionPressed("ads") ? ADS_Position : RestPosition;
+			
+		Tween = GetTree().CreateTween();
+		Tween.TweenProperty(this, "position", pos + new Vector3(0, 0, 0.1f), 0.01f);
+		Tween.TweenProperty(this, "position", pos, 0.1f);
+		Tween.Finished += () => WeaponRecoilAnimationActive = false;
+		Tween.Play();
 	}
 
 	private void Reload()
