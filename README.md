@@ -1,6 +1,6 @@
 ## Features
 - [x] FPS controller script
-- [x] Weapon does not clip into walls
+- [ ] Weapon does not clip into walls
 - [x] Weapon recoil / spray
 - [x] Weapon ADS
 - [x] Weapon Ammo
@@ -13,10 +13,9 @@
 - [ ] Player Models
 - [ ] Zombies and everything that comes with zombies
 - [ ] Multiplayer
-- [ ] Configured World Environment
+- [ ] Game Level
+- [x] Configured World Environment
 
-Preview is out-of-date
+https://user-images.githubusercontent.com/6277739/205466035-432467e2-45c4-42cf-9e54-10230891c73f.mp4
 
-https://user-images.githubusercontent.com/6277739/204943711-8f02719e-01fb-451d-a24d-36142634a7ec.mp4
-
-Please help solve the projects current [issues](https://github.com/Valks-Games/zombies/issues) :)
+All contributions welcomed. Please contact me through Discord valk#9904 if you decide to contribute.
