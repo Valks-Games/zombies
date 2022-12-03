@@ -6,6 +6,7 @@
 - [x] Weapon Ammo
 - [x] Weapon Sway
 - [x] Weapon Muzzle Flash
+- [ ] Bullet Traces
 - [ ] Weapon Smoke
 - [ ] Weapon Shells
 - [ ] Blender to Godot Weapon Animations
