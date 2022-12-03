@@ -5,8 +5,8 @@
 - [x] Weapon ADS
 - [x] Weapon Ammo
 - [x] Weapon Sway
+- [x] Weapon Muzzle Flash
 - [ ] Weapon Smoke
-- [ ] Weapon Muzzle Flash
 - [ ] Weapon Shells
 - [ ] Blender to Godot Weapon Animations
 - [ ] Player Models
