@@ -25,6 +25,7 @@ public partial class Gun : Node3D
 	private bool Reloading { get; set; }
 	private Tween Tween { get; set; }
 	private bool WeaponRecoilAnimationActive { get; set; }
+	private Node3D MuzzleFlash { get; set; }
 
 	public void Init(Player player)
 	{
@@ -38,6 +39,7 @@ public partial class Gun : Node3D
 		Position = RestPosition;
 		CurrentClips = Clips;
 		SetClipAmmo(ClipAmmo);
+		MuzzleFlash = GetNode<Node3D>("MuzzleFlash");
 	}
 
 	public void Update(float delta)
@@ -56,6 +58,9 @@ public partial class Gun : Node3D
 
 	private void ADS(float delta) 
 	{
+		if (Reloading)
+			return;
+
 		if (Input.IsActionPressed("ads"))
 		{
 			Position = Position.Lerp(ADS_Position, ADS_Acceleration * delta);
@@ -88,7 +93,7 @@ public partial class Gun : Node3D
 
 	private void Shoot(float delta)
 	{
-		if (CurrentClipAmmo == 0 || WeaponRecoilAnimationActive)
+		if (CurrentClipAmmo == 0 || WeaponRecoilAnimationActive || Reloading)
 			return;
 
 		SetClipAmmo(CurrentClipAmmo - 1);
@@ -114,6 +119,11 @@ public partial class Gun : Node3D
 		WeaponRecoilAnimationActive = true;
 
 		var pos = Input.IsActionPressed("ads") ? ADS_Position : RestPosition;
+
+		MuzzleFlash.Visible = true;
+
+		var timer = GetTree().CreateTimer(0.1f);
+		timer.Timeout += () => MuzzleFlash.Visible = false;
 			
 		Tween = GetTree().CreateTween();
 		Tween.TweenProperty(this, "position", pos + new Vector3(0, 0, 0.1f), 0.01f);
@@ -127,6 +137,11 @@ public partial class Gun : Node3D
 		if (Reloading)
 			return;
 
+		// do not reload if full clip
+		if (CurrentClipAmmo == ClipAmmo)
+			return;
+
+		// can't reload, out of clips to insert
 		if (CurrentClips == 0)
 			return;
 

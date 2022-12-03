@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b8et43l2djrlf"]
+[gd_scene load_steps=10 format=3 uid="uid://b8et43l2djrlf"]
 
 [ext_resource type="Script" path="res://Scripts/Gun.cs" id="1_boq7t"]
 
@@ -98,8 +98,15 @@ _data = {
 "reload": SubResource("Animation_hldt7")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rs0eq"]
+transparency = 1
+albedo_color = Color(0.996078, 1, 0.568627, 0.0156863)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_f28pc"]
+material = SubResource("StandardMaterial3D_rs0eq")
+
 [node name="Gun" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 0.993314, -0.11544, 0, 0.11544, 0.993314, 0.266, -0.12, -0.70452)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.266, -0.12, -0.70452)
 script = ExtResource("1_boq7t")
 Spray = Vector2(5, 5)
 Recoil = Vector3(0.5, 0.2, 0.1)
@@ -139,5 +146,19 @@ text = "10"
 libraries = {
 "": SubResource("AnimationLibrary_rosrm")
 }
+
+[node name="MuzzleFlash" type="Node3D" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MuzzleFlash"]
+transform = Transform3D(0.1, 0, 0, 0, -4.37114e-09, -0.1, 0, 0.1, -4.37114e-09, 0, 0, -0.211003)
+layers = 2
+mesh = SubResource("PlaneMesh_f28pc")
+skeleton = NodePath("../..")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="MuzzleFlash"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.262165)
+layers = 3
+light_color = Color(0.968627, 1, 0.921569, 1)
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
