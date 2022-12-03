@@ -45,10 +45,17 @@ public partial class Gun : Node3D
 		Player.CameraOffset = Player.CameraOffset.Lerp(Vector3.Zero, delta * ReturnSpeed);
 
 		Sway(delta);
+		ADS(delta);
 
 		if (Input.IsActionPressed("shoot"))
 			Shoot(delta);
 
+		if (Input.IsActionJustPressed("reload"))
+			Reload();
+	}
+
+	private void ADS(float delta) 
+	{
 		if (Input.IsActionPressed("ads"))
 		{
 			Position = Position.Lerp(ADS_Position, ADS_Acceleration * delta);
@@ -61,9 +68,6 @@ public partial class Gun : Node3D
 			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, RestFOV_World, ADS_Acceleration * delta);
 			Player.GunCam.Fov = Mathf.Lerp(Player.GunCam.Fov, RestFOV_Gun, ADS_Acceleration * delta);
 		}
-
-		if (Input.IsActionJustPressed("reload"))
-			Reload();
 	}
 
 	private void Sway(float delta)
