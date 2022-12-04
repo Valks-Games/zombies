@@ -66,7 +66,7 @@ public partial class Gun : Node3D
 		{
 			NearCollider = true;
 			TimerSwayClampDisabled.Start();
-			Rotation = Rotation.Lerp(new Vector3(Mathf.Pi / 2, Rotation.y, Rotation.z), delta * 4);
+			Rotation = Rotation.Lerp(new Vector3(1.2f, Rotation.y, Rotation.z), delta * 4);
 		}
 		else
 		{
