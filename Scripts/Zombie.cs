@@ -12,7 +12,13 @@ public partial class Zombie : Node3D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		var player = Player.Instance;
+
+		var targetPos = new Vector3(player.Position.x,
+			Position.y, // lock zombie y rotation
+			player.Position.z);
+
 		if (Player.Instance != null)
-			LookAt(Position - Player.Instance.Position, Vector3.Up);
+			LookAt(Position - targetPos, Vector3.Up);
 	}
 }
