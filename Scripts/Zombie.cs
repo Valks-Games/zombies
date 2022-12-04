@@ -13,6 +13,6 @@ public partial class Zombie : Node3D
 	public override void _PhysicsProcess(double delta)
 	{
 		if (Player.Instance != null)
-			LookAt(Player.Instance.Position, Vector3.Up);
+			LookAt(Position - Player.Instance.Position, Vector3.Up);
 	}
 }

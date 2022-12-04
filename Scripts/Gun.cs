@@ -22,7 +22,7 @@ public partial class Gun : Node3D
 	private Label3D ClipAmmoLabel { get; set; }
 	private bool Reloading { get; set; }
 	private Tween Tween { get; set; }
-	private bool WeaponRecoilAnimationActive { get; set; }
+	private bool WeaponKickbackAnimationActive { get; set; }
 	private Node3D MuzzleFlash { get; set; }
 
 	public void Init(Player player)
@@ -75,6 +75,7 @@ public partial class Gun : Node3D
 	{
 		Rotation = Rotation.Lerp(Vector3.Zero, delta * (Input.IsActionPressed("ads") ? 10 : 5));
 		
+		// Weapon sway in ADS is very distracting so disable it in ADS
 		if (!Input.IsActionPressed("ads"))
 		{
 			RotateX(-Player.MouseInput.y * 0.001f);
@@ -89,15 +90,31 @@ public partial class Gun : Node3D
 
 	private void Shoot(float delta)
 	{
-		if (CurrentClipAmmo == 0 || WeaponRecoilAnimationActive || Reloading)
+		if (CurrentClipAmmo == 0 || WeaponKickbackAnimationActive || Reloading)
 			return;
 
 		SetClipAmmo(CurrentClipAmmo - 1);
+		WepSpray(delta);
+		WepRecoil(delta);
+		ActivateMuzzleFlash();
+		Kickback();
 
+		if (Player.RayCast.IsColliding())
+		{
+			// create a temporary sphere at the raycast collision point
+			Geometry.CreateSphere(Player.RayCast.GetCollisionPoint(), 0.2f, 2);
+		}
+	}
+
+	private void WepSpray(float delta)
+	{
 		Player.RayCast.Rotation = Vector3.Zero;
 		Player.RayCast.RotateX(Math.RandomRange(-Spray.x * delta, Spray.x * delta));
 		Player.RayCast.RotateY(Math.RandomRange(-Spray.y * delta, Spray.y * delta));
+	}
 
+	private void WepRecoil(float delta)
+	{
 		var recoilY = Math.RandomRange(-Recoil.y * delta, Recoil.y * delta);
 		var recoilZ = Math.RandomRange(-Recoil.z * delta, Recoil.z * delta);
 
@@ -105,27 +122,27 @@ public partial class Gun : Node3D
 
 		Player.CameraOffset += recoilVec;
 		//Player.CameraTarget += new Vector3(recoilVec.x / 2, 0, 0); // Only return halfway
+	}
 
-		if (Player.RayCast.IsColliding())
-		{
-			// create a temporary sphere at the raycast collision point
-			Geometry.CreateSphere(Player.RayCast.GetCollisionPoint(), 0.2f, 2);
-		}
-
-		WeaponRecoilAnimationActive = true;
+	private void Kickback()
+	{
+		WeaponKickbackAnimationActive = true;
 
 		var pos = Input.IsActionPressed("ads") ? ADS_Position : RestPosition;
-
-		MuzzleFlash.Visible = true;
-
-		var timer = GetTree().CreateTimer(0.1f);
-		timer.Timeout += () => MuzzleFlash.Visible = false;
 			
 		Tween = GetTree().CreateTween();
 		Tween.TweenProperty(this, "position", pos + new Vector3(0, 0, 0.1f), 0.01f);
 		Tween.TweenProperty(this, "position", pos, FireRate);
-		Tween.Finished += () => WeaponRecoilAnimationActive = false;
+		Tween.Finished += () => WeaponKickbackAnimationActive = false;
 		Tween.Play();
+	}
+
+	private void ActivateMuzzleFlash()
+	{
+		MuzzleFlash.Visible = true;
+
+		var timer = GetTree().CreateTimer(0.1f);
+		timer.Timeout += () => MuzzleFlash.Visible = false;
 	}
 
 	private void Reload()

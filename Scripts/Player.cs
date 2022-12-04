@@ -28,6 +28,7 @@ public partial class Player : CharacterBody3D
 		RayCast = GetNode<RayCast3D>      ("Camera3D/RayCast");
 		Gun     = GetNode<Gun>            ("Camera3D/Gun");
 
+		RayCast.ExcludeRaycastParents();
 		Gun.Init(this);
 	}
 
