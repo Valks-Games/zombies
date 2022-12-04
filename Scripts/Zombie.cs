@@ -51,11 +51,12 @@ public partial class Zombie : CharacterBody3D
 		if (Rotation.y < prevRot.y + 0.005f && Rotation.y > prevRot.y - 0.005f)
 		{
 			Velocity = newVelocity;
-			MoveAndSlide();
 		}
-
-		
+		else
+			Velocity = Vector3.Zero;
 
 		prevRot = Rotation;
+
+		MoveAndSlide();
 	}
 }
