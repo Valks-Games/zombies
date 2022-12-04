@@ -38,13 +38,13 @@ public partial class Zombie : CharacterBody3D
 
 		Geometry.CreateSphere(nextLocation, 0.2f, 2);
 
-		var targetPos = new Vector3(nextLocation.x,
-			Position.y, // lock zombie y rotation
-			nextLocation.z);
+		var dir = nextLocation - Position;
 
-		if (Position != targetPos)
-			// not sure why this works for inverting LookAt but it just does
-			LookAt(2 * Position - targetPos, Vector3.Up);
+		var angle = Mathf.Atan2(dir.x, dir.z);
+
+		var rot = Rotation;
+		rot.y = Mathf.LerpAngle(rot.y, angle, 0.01f);
+		Rotation = rot;
 
 		Velocity = newVelocity;
 		MoveAndSlide();
