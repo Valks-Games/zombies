@@ -9,7 +9,7 @@
 - [x] Ammo
 - [x] Sway
 - [x] Muzzle Flash
-- [ ] Rotates up when too close to a wall or other object
+- [x] Rotates up when too close to a wall or other object
 - [ ] Traces
 - [ ] Smoke
 - [ ] Shells
