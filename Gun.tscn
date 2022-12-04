@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b8et43l2djrlf"]
+[gd_scene load_steps=6 format=3 uid="uid://b8et43l2djrlf"]
 
 [ext_resource type="Script" path="res://Scripts/Gun.cs" id="1_boq7t"]
 
@@ -8,67 +8,6 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_mipwa"]
 material = SubResource("StandardMaterial3D_t0b1r")
 
-[sub_resource type="Animation" id="Animation_x3lwy"]
-length = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.266, -0.12, -0.70452)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.115698, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_hldt7"]
-resource_name = "reload"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.902376, 1.10651, 1.50139, 2.50376, 3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0.266, -0.12, -0.70452), Vector3(0.266, -0.12, -0.597124), Vector3(0.266, -0.12, -0.61203), Vector3(0.266, -0.392099, -0.640863), Vector3(0.266, -0.392099, -0.640863), Vector3(0.266, -0.12, -0.70452)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.902131, 1.80513, 2.06983, 2.31828, 3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(0.450343, 0.529396, 0.931196), Vector3(0.234905, 0.27614, 0.485724), Vector3(-0.133234, 0.618392, 1.53674), Vector3(0.234905, 0.27614, 0.485724), Vector3(0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_rosrm"]
-_data = {
-"RESET": SubResource("Animation_x3lwy"),
-"reload": SubResource("Animation_hldt7")
-}
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rs0eq"]
 transparency = 1
 albedo_color = Color(0.996078, 1, 0.568627, 0.00392157)
@@ -77,7 +16,7 @@ albedo_color = Color(0.996078, 1, 0.568627, 0.00392157)
 material = SubResource("StandardMaterial3D_rs0eq")
 
 [node name="Gun" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 0.993314, -0.11544, 0, 0.11544, 0.993314, 0.266, -0.12, -0.70452)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.266, -0.12, -0.70452)
 script = ExtResource("1_boq7t")
 Spray = Vector2(5, 5)
 Recoil = Vector3(0.5, 0.2, 0.1)
@@ -88,32 +27,30 @@ RestFOV_World = 100.0
 ADS_FOV_World = 80.0
 ADS_Acceleration = 10.0
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.0281492, 0, 0, 0, 0.0234331, 0, 0, 0, 0.119745, 0, 0.0367303, 0)
-cast_shadow = 0
-mesh = SubResource("BoxMesh_mipwa")
+[node name="Mesh" type="Node3D" parent="."]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh"]
 transform = Transform3D(0.0579228, 0, 0, 0, 0.0578535, 0, 0, 0, 0.347316, 0, 0, 0)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_mipwa")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Mesh"]
 transform = Transform3D(0.0579228, 0, 0, 0, 0.0215415, -0.0898951, 0, 0.0183306, 0.105641, 0, -0.045, 0.08)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_mipwa")
-skeleton = NodePath("../../..")
+skeleton = NodePath("../../../..")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Mesh"]
+transform = Transform3D(0.0281492, 0, 0, 0, 0.0234331, 0, 0, 0, 0.119745, 0, 0.0367303, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_mipwa")
+skeleton = NodePath("../..")
 
 [node name="ClipAmmo" type="Label3D" parent="."]
 transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 0.0216802, 0.181)
 modulate = Color(0.490196, 1, 0.968627, 1)
 text = "10"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_rosrm")
-}
 
 [node name="MuzzleFlash" type="Node3D" parent="."]
 visible = false
@@ -127,5 +64,3 @@ skeleton = NodePath("../..")
 [node name="OmniLight3D" type="OmniLight3D" parent="MuzzleFlash"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.262165)
 light_color = Color(0.968627, 1, 0.921569, 1)
-
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

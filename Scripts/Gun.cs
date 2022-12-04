@@ -15,15 +15,17 @@ public partial class Gun : Node3D
 	[Export] public float FireRate { get; set; }
 
 	private Player Player { get; set; }
-	private AnimationPlayer AnimationPlayer { get; set; }
 	private bool ADS_Toggle { get; set; }
 	private int CurrentClipAmmo { get; set; }
 	private int CurrentClips { get; set; }
 	private Label3D ClipAmmoLabel { get; set; }
 	private bool Reloading { get; set; }
-	private Tween Tween { get; set; }
+	private Tween TweenKickback { get; set; }
+	private Tween TweenReload { get; set; }
 	private bool WeaponKickbackAnimationActive { get; set; }
 	private Node3D MuzzleFlash { get; set; }
+	private bool NearCollider { get; set; }
+	private Godot.Timer TimerSwayClampDisabled { get; set; }
 
 	public void Init(Player player)
 	{
@@ -32,12 +34,14 @@ public partial class Gun : Node3D
 
 	public override void _Ready()
 	{
-		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		ClipAmmoLabel = GetNode<Label3D>("ClipAmmo");
 		Position = RestPosition;
 		CurrentClips = Clips;
 		SetClipAmmo(ClipAmmo);
 		MuzzleFlash = GetNode<Node3D>("MuzzleFlash");
+		TimerSwayClampDisabled = new Godot.Timer();
+		TimerSwayClampDisabled.WaitTime = 1; // 1 second
+		AddChild(TimerSwayClampDisabled);
 	}
 
 	public void Update(float delta)
@@ -46,6 +50,7 @@ public partial class Gun : Node3D
 
 		Sway(delta);
 		ADS(delta);
+		LiftWepNearCollider(delta);
 
 		if (Input.IsActionPressed("shoot"))
 			Shoot(delta);
@@ -54,12 +59,27 @@ public partial class Gun : Node3D
 			Reload();
 	}
 
+	private void LiftWepNearCollider(float delta)
+	{
+		if (Player.RayCast.IsColliding() && 
+			Player.RayCast.GetCollisionPoint().DistanceTo(Player.Position) < 3)
+		{
+			NearCollider = true;
+			TimerSwayClampDisabled.Start();
+			Rotation = Rotation.Lerp(new Vector3(Mathf.Pi / 2, Rotation.y, Rotation.z), delta * 4);
+		}
+		else
+		{
+			NearCollider = false;
+		}
+	}
+
 	private void ADS(float delta) 
 	{
 		if (Reloading)
 			return;
 
-		if (Input.IsActionPressed("ads"))
+		if (Input.IsActionPressed("ads") && !NearCollider)
 		{
 			Position = Position.Lerp(ADS_Position, ADS_Acceleration * delta);
 			Player.Camera.Fov = Mathf.Lerp(Player.Camera.Fov, ADS_FOV_World, ADS_Acceleration * delta);
@@ -73,6 +93,9 @@ public partial class Gun : Node3D
 
 	private void Sway(float delta)
 	{
+		if (Reloading || NearCollider)
+			return;
+
 		Rotation = Rotation.Lerp(Vector3.Zero, delta * (Input.IsActionPressed("ads") ? 10 : 5));
 		
 		// Weapon sway in ADS is very distracting so disable it in ADS
@@ -81,16 +104,19 @@ public partial class Gun : Node3D
 			RotateX(-Player.MouseInput.y * 0.001f);
 			RotateY(-Player.MouseInput.x * 0.001f);
 
-			var rot = Rotation;
-			rot.x = Mathf.Clamp(Rotation.x, -0.3f, 0.3f);
-			rot.y = Mathf.Clamp(Rotation.y, -0.3f, 0.3f);
-			Rotation = rot;
+			if (TimerSwayClampDisabled.TimeLeft == 0)
+			{
+				var rot = Rotation;
+				rot.x = Mathf.Clamp(Rotation.x, -0.3f, 0.3f);
+				rot.y = Mathf.Clamp(Rotation.y, -0.3f, 0.3f);
+				Rotation = rot;
+			}
 		}
 	}
 
 	private void Shoot(float delta)
 	{
-		if (CurrentClipAmmo == 0 || WeaponKickbackAnimationActive || Reloading)
+		if (CurrentClipAmmo == 0 || WeaponKickbackAnimationActive || Reloading || NearCollider)
 			return;
 
 		SetClipAmmo(CurrentClipAmmo - 1);
@@ -130,19 +156,11 @@ public partial class Gun : Node3D
 
 		var pos = Input.IsActionPressed("ads") ? ADS_Position : RestPosition;
 			
-		Tween = GetTree().CreateTween();
-		Tween.TweenProperty(this, "position", pos + new Vector3(0, 0, 0.1f), 0.01f);
-		Tween.TweenProperty(this, "position", pos, FireRate);
-		Tween.Finished += () => WeaponKickbackAnimationActive = false;
-		Tween.Play();
-	}
-
-	private void ActivateMuzzleFlash()
-	{
-		MuzzleFlash.Visible = true;
-
-		var timer = GetTree().CreateTimer(0.1f);
-		timer.Timeout += () => MuzzleFlash.Visible = false;
+		TweenKickback = GetTree().CreateTween();
+		TweenKickback.TweenProperty(this, "position", pos + new Vector3(0, 0, 0.1f), 0.01f);
+		TweenKickback.TweenProperty(this, "position", pos, FireRate);
+		TweenKickback.Finished += () => WeaponKickbackAnimationActive = false;
+		TweenKickback.Play();
 	}
 
 	private void Reload()
@@ -161,23 +179,28 @@ public partial class Gun : Node3D
 		CurrentClips -= 1;
 
 		Reloading = true;
-		AnimationPlayer.Play("reload");
+
+		TweenReload = GetTree().CreateTween();
+		TweenReload.TweenProperty(this, "rotation:x", Mathf.Pi * 2, 0.6f);
+		TweenReload.Finished += () => 
+		{
+			Rotation = new Vector3(0, Rotation.y, Rotation.z); // reset rotation
+			SetClipAmmo(ClipAmmo);
+			Reloading = false;
+		};
+	}
+
+	private void ActivateMuzzleFlash()
+	{
+		MuzzleFlash.Visible = true;
+
+		var timer = GetTree().CreateTimer(0.1f);
+		timer.Timeout += () => MuzzleFlash.Visible = false;
 	}
 
 	private void SetClipAmmo(int v)
 	{
 		CurrentClipAmmo = v;
 		ClipAmmoLabel.Text = $"{v}";
-	}
-
-	private void _on_animation_player_animation_finished(string animation)
-	{
-		switch (animation)
-		{
-			case "reload":
-				SetClipAmmo(ClipAmmo);
-				Reloading = false;
-				break;
-		}
 	}
 }
