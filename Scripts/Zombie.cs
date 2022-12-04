@@ -28,6 +28,8 @@ public partial class Zombie : CharacterBody3D
 		Timer.Start();
 	}
 
+	private Vector3 prevRot;
+
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!ready)
@@ -46,7 +48,14 @@ public partial class Zombie : CharacterBody3D
 		rot.y = Mathf.LerpAngle(rot.y, angle, 0.01f);
 		Rotation = rot;
 
-		Velocity = newVelocity;
-		MoveAndSlide();
+		if (Rotation.y < prevRot.y + 0.005f && Rotation.y > prevRot.y - 0.005f)
+		{
+			Velocity = newVelocity;
+			MoveAndSlide();
+		}
+
+		
+
+		prevRot = Rotation;
 	}
 }
