@@ -1,3 +1,7 @@
+https://user-images.githubusercontent.com/6277739/205728645-364fb448-9361-4249-97b7-8e1367cb2454.mp4
+
+All contributions are welcomed, please contact me through Discord valk#9904 if you would like to contribute.
+
 ### Player
 - [x] FPS controller script
 - [ ] Model
@@ -35,7 +39,3 @@
 
 ### Multiplayer
 - [ ] Multiplayer
-
-https://user-images.githubusercontent.com/6277739/205466035-432467e2-45c4-42cf-9e54-10230891c73f.mp4
-
-All contributions are welcomed, please contact me through Discord valk#9904 if you would like to contribute.
