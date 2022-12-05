@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dr45b2356po5d"]
+
+[ext_resource type="PackedScene" uid="uid://fbrupwqj271f" path="res://Zombie.gltf" id="1_v17i7"]
+
+[node name="Zombie" instance=ExtResource("1_v17i7")]

@@ -10,7 +10,7 @@ public partial class Zombie : CharacterBody3D
 
 	public override void _Ready()
 	{
-		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+		AnimationPlayer = GetNode<AnimationPlayer>("GLTF/AnimationPlayer");
 		AnimationPlayer.Play("walk");
 
 		NavigationAgent3D = GetNode<NavigationAgent3D>("NavigationAgent3D");
