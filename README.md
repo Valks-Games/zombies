@@ -1,6 +1,8 @@
 https://user-images.githubusercontent.com/6277739/205728645-364fb448-9361-4249-97b7-8e1367cb2454.mp4
 
-All contributions are welcomed, please contact me through Discord valk#9904 if you would like to contribute.
+### All contributions are welcomed, please contact me through Discord `valk#9904` if you would like to contribute
+
+### [Projects Issues](https://github.com/Valks-Games/zombies/issues)
 
 ### Player
 - [x] FPS controller script
@@ -34,8 +36,8 @@ All contributions are welcomed, please contact me through Discord valk#9904 if y
 
 ### Zombies
 - [x] Models
-- [ ] Animation transitions
-- [ ] Pathfinding
+- [x] Animation transitions
+- [x] Pathfinding
 
 ### Multiplayer
 - [ ] Multiplayer
