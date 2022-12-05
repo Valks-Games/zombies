@@ -124,7 +124,7 @@ mesh = SubResource("BoxMesh_mhqe8")
 shape = SubResource("ConcavePolygonShape3D_wr87x")
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -27.9598)
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0, -10.8272)
 script = ExtResource("1_lsgow")
 MouseSensitivity = 0.005
 GravityForce = 7.0
@@ -167,3 +167,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 shape = SubResource("CapsuleShape3D_yn3ss")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Zed"]
+agent_height_offset = 0.5
