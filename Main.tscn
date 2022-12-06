@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cukwvv040bdb2"]
+[gd_scene load_steps=18 format=3 uid="uid://cukwvv040bdb2"]
 
 [ext_resource type="Script" path="res://Scripts/Root.cs" id="1_7rc4o"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_lsgow"]
@@ -51,6 +51,10 @@ material = SubResource("StandardMaterial3D_pn71f")
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_wr87x"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_jfdhj"]
+dof_blur_far_distance = 40.0
+dof_blur_near_distance = 0.33
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_d4kws"]
 height = 3.0
@@ -163,10 +167,9 @@ MoveDampening = 10.0
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2.15996, 0.137482)
-cull_mask = 1048573
+attributes = SubResource("CameraAttributesPractical_jfdhj")
 current = true
-fov = 80.0
-near = 0.001
+fov = 37.8493
 
 [node name="RayCast" type="RayCast3D" parent="Player/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.91036e-08, 0, -0.332907)
@@ -181,6 +184,7 @@ FireRate = 0.1
 
 [node name="PlayerMesh" type="MeshInstance3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+visible = false
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_d4kws")
 

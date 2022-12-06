@@ -2,19 +2,17 @@ namespace Zombies;
 
 public partial class Zombie : CharacterBody3D
 {
-	private AnimationPlayer AnimationPlayer { get; set; }
 	private AnimationTree AnimationTree { get; set; }
 	private NavigationAgent3D NavigationAgent3D { get; set; }
 	private Skeleton3D Skeleton3D { get; set; }
 
 	private Godot.Timer Timer { get; set; }
-	private bool ready = false;
+	private bool WeAreReady { get; set; }
+	private Vector3 PrevRot { get; set; }
+	private float AnimationMotion { get; set; } = 0f;
 
 	public override void _Ready()
 	{
-		//AnimationPlayer = GetNode<AnimationPlayer>("GLTF/AnimationPlayer");
-		//AnimationPlayer.Play("walk");
-
 		AnimationTree = GetNode<AnimationTree>("AnimationTree");
 
 		NavigationAgent3D = GetNode<NavigationAgent3D>("NavigationAgent3D");
@@ -27,22 +25,19 @@ public partial class Zombie : CharacterBody3D
 		Timer.OneShot = false;
 		Timer.Timeout += () => 
 		{
-			ready = true;
+			WeAreReady = true;
 			NavigationAgent3D.TargetLocation = Player.Instance.Position;
 		};
 		AddChild(Timer);
 		Timer.Start();
 	}
 
-	private Vector3 prevRot;
-	private float animationMotion = 0f;
-
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!ready)
+		if (!WeAreReady)
 			return;
 
-		AnimationTree.Set("parameters/move/blend_position", animationMotion);
+		AnimationTree.Set("parameters/move/blend_position", AnimationMotion);
 
 		var nextLocation = NavigationAgent3D.GetNextLocation();
 		var newVelocity = (nextLocation - Position).Normalized();
@@ -57,18 +52,21 @@ public partial class Zombie : CharacterBody3D
 		rot.y = Mathf.LerpAngle(rot.y, angle, 0.01f);
 		Rotation = rot;
 
-		if (Rotation.y < prevRot.y + 0.01f && Rotation.y > prevRot.y - 0.01f)
+		if (
+			!NavigationAgent3D.IsTargetReached() && 
+			Rotation.y < PrevRot.y + 0.01f && Rotation.y > PrevRot.y - 0.01f
+			)
 		{
-			animationMotion = Mathf.Lerp(animationMotion, 0.5f, 0.02f);
+			AnimationMotion = Mathf.Lerp(AnimationMotion, 0.5f, 0.02f);
 			NavigationAgent3D.SetVelocity(newVelocity);
 		}
 		else
 		{ 
-			animationMotion = Mathf.Lerp(animationMotion, 0f, 0.02f);
+			AnimationMotion = Mathf.Lerp(AnimationMotion, 0f, 0.02f);
 			NavigationAgent3D.SetVelocity(Vector3.Zero);
 		}
 
-		prevRot = Rotation;
+		PrevRot = Rotation;
 	}
 
 	private void _on_navigation_agent_3d_velocity_computed(Vector3 safeVelocity)
@@ -79,6 +77,6 @@ public partial class Zombie : CharacterBody3D
 
 	private void _on_navigation_agent_3d_target_reached()
 	{
-
+		
 	}
 }
