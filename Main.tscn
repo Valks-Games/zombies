@@ -65,7 +65,7 @@ height = 3.0
 script = ExtResource("1_7rc4o")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navmesh = SubResource("NavigationMesh_l8r4j")
+navigation_mesh = SubResource("NavigationMesh_l8r4j")
 
 [node name="Environment" type="Node3D" parent="NavigationRegion3D"]
 
