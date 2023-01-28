@@ -66,7 +66,7 @@ public partial class Gun : Node3D
 		{
 			NearCollider = true;
 			TimerSwayClampDisabled.Start();
-			Rotation = Rotation.Lerp(new Vector3(1.2f, Rotation.y, Rotation.z), delta * 4);
+			Rotation = Rotation.Lerp(new Vector3(1.2f, Rotation.Y, Rotation.Z), delta * 4);
 		}
 		else
 		{
@@ -101,14 +101,14 @@ public partial class Gun : Node3D
 		// Weapon sway in ADS is very distracting so disable it in ADS
 		if (!Input.IsActionPressed("ads"))
 		{
-			RotateX(-Player.MouseInput.y * 0.001f);
-			RotateY(-Player.MouseInput.x * 0.001f);
+			RotateX(-Player.MouseInput.Y * 0.001f);
+			RotateY(-Player.MouseInput.X * 0.001f);
 
 			if (TimerSwayClampDisabled.TimeLeft == 0)
 			{
 				var rot = Rotation;
-				rot.x = Mathf.Clamp(Rotation.x, -0.3f, 0.3f);
-				rot.y = Mathf.Clamp(Rotation.y, -0.3f, 0.3f);
+				rot.X = Mathf.Clamp(Rotation.X, -0.3f, 0.3f);
+				rot.Y = Mathf.Clamp(Rotation.Y, -0.3f, 0.3f);
 				Rotation = rot;
 			}
 		}
@@ -135,16 +135,16 @@ public partial class Gun : Node3D
 	private void WepSpray(float delta)
 	{
 		Player.RayCast.Rotation = Vector3.Zero;
-		Player.RayCast.RotateX(Math.RandomRange(-Spray.x * delta, Spray.x * delta));
-		Player.RayCast.RotateY(Math.RandomRange(-Spray.y * delta, Spray.y * delta));
+		Player.RayCast.RotateX(Math.RandomRange(-Spray.X * delta, Spray.X * delta));
+		Player.RayCast.RotateY(Math.RandomRange(-Spray.Y * delta, Spray.Y * delta));
 	}
 
 	private void WepRecoil(float delta)
 	{
-		var recoilY = Math.RandomRange(-Recoil.y * delta, Recoil.y * delta);
-		var recoilZ = Math.RandomRange(-Recoil.z * delta, Recoil.z * delta);
+		var recoilY = Math.RandomRange(-Recoil.Y * delta, Recoil.Y * delta);
+		var recoilZ = Math.RandomRange(-Recoil.Z * delta, Recoil.Z * delta);
 
-		var recoilVec = new Vector3(Recoil.x * delta, recoilY, recoilZ);
+		var recoilVec = new Vector3(Recoil.X * delta, recoilY, recoilZ);
 
 		Player.CameraOffset += recoilVec;
 		//Player.CameraTarget += new Vector3(recoilVec.x / 2, 0, 0); // Only return halfway
@@ -184,7 +184,7 @@ public partial class Gun : Node3D
 		TweenReload.TweenProperty(this, "rotation:x", Mathf.Pi * 2, 0.6f);
 		TweenReload.Finished += () => 
 		{
-			Rotation = new Vector3(0, Rotation.y, Rotation.z); // reset rotation
+			Rotation = new Vector3(0, Rotation.Y, Rotation.Z); // reset rotation
 			SetClipAmmo(ClipAmmo);
 			Reloading = false;
 		};

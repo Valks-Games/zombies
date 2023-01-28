@@ -40,7 +40,7 @@ public partial class Player : CharacterBody3D
 		Camera.Rotation = CameraTarget + CameraOffset;
 
 		//var h_rot = GlobalTransform.basis.GetEuler().y;
-		var h_rot = Camera.Basis.GetEuler().y;
+		var h_rot = Camera.Basis.GetEuler().Y;
 
 		var f_input = Input.GetActionStrength("move_backward") - Input.GetActionStrength("move_forward");
 		var h_input = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
@@ -77,13 +77,13 @@ public partial class Player : CharacterBody3D
 		if (Input.MouseMode != Input.MouseModeEnum.Captured)
 			return;
 
-		MouseInput = new Vector2(motion.Relative.x, motion.Relative.y);
+		MouseInput = new Vector2(motion.Relative.X, motion.Relative.Y);
 
-		CameraTarget += new Vector3(-motion.Relative.y * MouseSensitivity, -motion.Relative.x * MouseSensitivity, 0);
+		CameraTarget += new Vector3(-motion.Relative.Y * MouseSensitivity, -motion.Relative.X * MouseSensitivity, 0);
 	
 		// prevent camera from looking too far up or down
 		var rotDeg = CameraTarget;
-		rotDeg.x = Mathf.Clamp(rotDeg.x, -89f.ToRadians(), 89f.ToRadians());
+		rotDeg.X = Mathf.Clamp(rotDeg.X, -89f.ToRadians(), 89f.ToRadians());
 		CameraTarget = rotDeg;
 	}
 }

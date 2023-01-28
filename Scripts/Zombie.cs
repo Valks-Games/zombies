@@ -26,7 +26,7 @@ public partial class Zombie : CharacterBody3D
 		Timer.Timeout += () => 
 		{
 			WeAreReady = true;
-			NavigationAgent3D.TargetLocation = Player.Instance.Position;
+			NavigationAgent3D.TargetPosition = Player.Instance.Position;
 		};
 		AddChild(Timer);
 		Timer.Start();
@@ -39,22 +39,22 @@ public partial class Zombie : CharacterBody3D
 
 		AnimationTree.Set("parameters/move/blend_position", AnimationMotion);
 
-		var nextLocation = NavigationAgent3D.GetNextLocation();
+		var nextLocation = NavigationAgent3D.GetNextPathPosition();
 		var newVelocity = (nextLocation - Position).Normalized();
 
 		//Geometry.CreateSphere(nextLocation, 0.2f, 2);
 
 		var dir = nextLocation - Position;
 
-		var angle = Mathf.Atan2(dir.x, dir.z);
+		var angle = Mathf.Atan2(dir.X, dir.Z);
 
 		var rot = Rotation;
-		rot.y = Mathf.LerpAngle(rot.y, angle, 0.01f);
+		rot.Y = Mathf.LerpAngle(rot.Y, angle, 0.01f);
 		Rotation = rot;
 
 		if (
 			!NavigationAgent3D.IsTargetReached() && 
-			Rotation.y < PrevRot.y + 0.01f && Rotation.y > PrevRot.y - 0.01f
+			Rotation.Y < PrevRot.Y + 0.01f && Rotation.Y > PrevRot.Y - 0.01f
 			)
 		{
 			AnimationMotion = Mathf.Lerp(AnimationMotion, 0.5f, 0.02f);
