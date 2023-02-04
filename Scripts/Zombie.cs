@@ -4,7 +4,6 @@ public partial class Zombie : CharacterBody3D
 {
 	private AnimationTree AnimationTree { get; set; }
 	private NavigationAgent3D NavigationAgent3D { get; set; }
-	private Skeleton3D Skeleton3D { get; set; }
 
 	private Godot.Timer Timer { get; set; }
 	private bool WeAreReady { get; set; }
@@ -13,11 +12,9 @@ public partial class Zombie : CharacterBody3D
 
 	public override void _Ready()
 	{
-		AnimationTree = GetNode<AnimationTree>("AnimationTree");
+		AnimationTree = GetNode<AnimationTree>("Zombie/AnimationTree");
 
 		NavigationAgent3D = GetNode<NavigationAgent3D>("NavigationAgent3D");
-
-		Skeleton3D = GetNode<Skeleton3D>("Armature/Skeleton3D");
 
 		Timer = new Godot.Timer();
 		Timer.WaitTime = 1;
@@ -53,7 +50,7 @@ public partial class Zombie : CharacterBody3D
 		Rotation = rot;
 
 		if (
-			!NavigationAgent3D.IsTargetReached() && 
+			!NavigationAgent3D.IsTargetReached() &&
 			Rotation.Y < PrevRot.Y + 0.01f && Rotation.Y > PrevRot.Y - 0.01f
 			)
 		{

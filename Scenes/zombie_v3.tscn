@@ -1,0 +1,131 @@
+[gd_scene load_steps=14 format=3 uid="uid://u6k4aihianq0"]
+
+[ext_resource type="PackedScene" uid="uid://bcvs2hvqjtav3" path="res://Zombie.gltf" id="1_fumq1"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_103mw"]
+animation = &"attack1"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xxj05"]
+animation = &"attack2"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_80l57"]
+animation = &"attack3"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_nespw"]
+animation = &"attack4"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_2vkj0"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_103mw")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_xxj05")
+blend_point_1/pos = 1.0
+blend_point_2/node = SubResource("AnimationNodeAnimation_80l57")
+blend_point_2/pos = 2.0
+blend_point_3/node = SubResource("AnimationNodeAnimation_nespw")
+blend_point_3/pos = 3.0
+min_space = 0.0
+max_space = 3.0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sm6nr"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_wiw0h"]
+animation = &"Walking"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dfq0e"]
+animation = &"Running"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_f8phk"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_7eyjq"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_sm6nr")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_wiw0h")
+blend_point_1/pos = 0.5
+blend_point_2/node = SubResource("AnimationNodeAnimation_dfq0e")
+blend_point_2/pos = 1.0
+blend_point_3/node = SubResource("AnimationNodeAnimation_f8phk")
+blend_point_3/pos = -1.0
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_j5egc"]
+filter_enabled = true
+filters = ["Armature/Skeleton3D:Head", "Armature/Skeleton3D:Hips", "Armature/Skeleton3D:LeftArm", "Armature/Skeleton3D:LeftForeArm", "Armature/Skeleton3D:LeftHand", "Armature/Skeleton3D:LeftHandIndex1", "Armature/Skeleton3D:LeftHandIndex2", "Armature/Skeleton3D:LeftHandIndex3", "Armature/Skeleton3D:LeftHandMiddle1", "Armature/Skeleton3D:LeftHandMiddle2", "Armature/Skeleton3D:LeftHandMiddle3", "Armature/Skeleton3D:LeftHandPinky1", "Armature/Skeleton3D:LeftHandPinky2", "Armature/Skeleton3D:LeftHandPinky3", "Armature/Skeleton3D:LeftHandRing1", "Armature/Skeleton3D:LeftHandRing2", "Armature/Skeleton3D:LeftHandRing3", "Armature/Skeleton3D:LeftHandThumb1", "Armature/Skeleton3D:LeftHandThumb2", "Armature/Skeleton3D:LeftHandThumb3", "Armature/Skeleton3D:LeftShoulder", "Armature/Skeleton3D:Neck", "Armature/Skeleton3D:RightArm", "Armature/Skeleton3D:RightForeArm", "Armature/Skeleton3D:RightHand", "Armature/Skeleton3D:RightHandIndex1", "Armature/Skeleton3D:RightHandIndex2", "Armature/Skeleton3D:RightHandIndex3", "Armature/Skeleton3D:RightHandMiddle1", "Armature/Skeleton3D:RightHandMiddle2", "Armature/Skeleton3D:RightHandMiddle3", "Armature/Skeleton3D:RightHandPinky1", "Armature/Skeleton3D:RightHandPinky2", "Armature/Skeleton3D:RightHandPinky3", "Armature/Skeleton3D:RightHandRing1", "Armature/Skeleton3D:RightHandRing2", "Armature/Skeleton3D:RightHandRing3", "Armature/Skeleton3D:RightHandThumb1", "Armature/Skeleton3D:RightHandThumb2", "Armature/Skeleton3D:RightHandThumb3", "Armature/Skeleton3D:RightShoulder", "Armature/Skeleton3D:Spine", "Armature/Skeleton3D:Spine1", "Armature/Skeleton3D:Spine2"]
+fadein_time = 0.5
+fadeout_time = 0.5
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_ubrox"]
+graph_offset = Vector2(-240.728, 23.6916)
+nodes/attack_type/node = SubResource("AnimationNodeBlendSpace1D_2vkj0")
+nodes/attack_type/position = Vector2(-40, 220)
+nodes/move/node = SubResource("AnimationNodeBlendSpace1D_7eyjq")
+nodes/move/position = Vector2(-40, 60)
+nodes/oneshot/node = SubResource("AnimationNodeOneShot_j5egc")
+nodes/oneshot/position = Vector2(160, 120)
+nodes/output/position = Vector2(420, 120)
+node_connections = [&"output", 0, &"oneshot", &"oneshot", 0, &"move", &"oneshot", 1, &"attack_type"]
+
+[node name="Zombie" instance=ExtResource("1_fumq1")]
+
+[node name="Node2" parent="." index="0"]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Node2" index="0"]
+bones/0/position = Vector3(0.886032, 93.0887, 0.0994388)
+bones/0/rotation = Quaternion(0.0263625, 0.0601207, -0.0192999, 0.997656)
+bones/2/rotation = Quaternion(-0.06302, -0.00951887, 0.007032, 0.997942)
+bones/4/rotation = Quaternion(-0.00441878, -0.0210466, 0.011686, 0.9997)
+bones/6/rotation = Quaternion(0.0530875, -0.0203321, 0.0128981, 0.9983)
+bones/8/rotation = Quaternion(-0.0109304, 0.00453677, -0.0145127, 0.999825)
+bones/10/rotation = Quaternion(0.0196835, -0.00574755, 0.0170094, 0.999645)
+bones/13/rotation = Quaternion(-0.611161, -0.417666, 0.525369, -0.419553)
+bones/15/rotation = Quaternion(0.377498, -0.0278698, 0.121421, 0.917592)
+bones/17/rotation = Quaternion(0.0750373, 0.137869, 0.386673, 0.908761)
+bones/19/rotation = Quaternion(-0.151488, 0.088885, 0.0932959, 0.980024)
+bones/21/rotation = Quaternion(0.302772, -0.135642, 0.152293, 0.930987)
+bones/23/rotation = Quaternion(-0.0227161, -0.00050455, -0.0610281, 0.997877)
+bones/28/rotation = Quaternion(0.330748, 0.00328542, 0.0433886, 0.942715)
+bones/30/rotation = Quaternion(0.612204, -0.012379, 0.0534781, 0.788792)
+bones/35/rotation = Quaternion(0.489594, -0.0297217, 0.0820005, 0.867577)
+bones/37/rotation = Quaternion(0.740192, -0.00530357, 0.0759661, 0.668069)
+bones/42/rotation = Quaternion(0.50056, -0.0934917, 0.0290345, 0.860149)
+bones/44/rotation = Quaternion(0.757874, 0.00568803, 0.0514859, 0.650342)
+bones/49/rotation = Quaternion(0.572444, -0.136404, 0.02246, 0.808206)
+bones/51/rotation = Quaternion(0.703318, 0.0280749, 0.0484914, 0.708664)
+bones/53/rotation = Quaternion(0, 0, 0, 1)
+bones/56/rotation = Quaternion(0.573514, -0.450876, 0.59205, 0.342446)
+bones/58/rotation = Quaternion(0.451683, -0.0831434, 0.160796, 0.873621)
+bones/60/rotation = Quaternion(0.0407243, -0.179754, -0.216839, 0.958651)
+bones/62/rotation = Quaternion(0.0132411, -0.123629, 0.0453543, 0.991203)
+bones/64/rotation = Quaternion(0.238691, 0.155082, -0.210374, 0.935264)
+bones/66/rotation = Quaternion(0.0804746, -0.176133, 0.183633, 0.963732)
+bones/71/rotation = Quaternion(0.323879, 0.0222985, 0.00716394, 0.945809)
+bones/73/rotation = Quaternion(0.528533, 0.0266885, -0.0301191, 0.847958)
+bones/78/rotation = Quaternion(0.39063, 0.0403823, -0.00878572, 0.91962)
+bones/80/rotation = Quaternion(0.57178, 0.0340129, -0.0417366, 0.818638)
+bones/85/rotation = Quaternion(0.380785, 0.0131559, -0.0319008, 0.92402)
+bones/87/rotation = Quaternion(0.621278, -0.0169773, -0.0574999, 0.781293)
+bones/92/rotation = Quaternion(0.347933, 0.00348598, -0.0549858, 0.935899)
+bones/94/rotation = Quaternion(0.662589, -0.041159, -0.0841076, 0.743107)
+bones/96/rotation = Quaternion(1.44335e-08, 4.3985e-09, -9.5738e-08, 1)
+bones/99/rotation = Quaternion(0.0783698, 0.0349724, 0.993643, -0.0728683)
+bones/101/rotation = Quaternion(-0.516557, 0.0492976, 0.00799828, 0.854795)
+bones/103/rotation = Quaternion(0.39797, 0.0584068, 0.0826636, 0.911798)
+bones/105/rotation = Quaternion(0.301681, -0.0662179, -0.0275082, 0.950709)
+bones/108/rotation = Quaternion(-0.0504915, 0.310295, 0.949134, -0.0176448)
+bones/110/rotation = Quaternion(-0.291621, -0.00458083, 0.00510929, 0.956509)
+bones/112/rotation = Quaternion(0.521996, -0.027398, -0.0398631, 0.851575)
+bones/114/rotation = Quaternion(0.276677, 0.0372971, 0.010516, 0.960181)
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+tree_root = SubResource("AnimationNodeBlendTree_ubrox")
+anim_player = NodePath("../AnimationPlayer")
+active = true
+root_motion_track = NodePath("Armature/Skeleton3D:RootMotion")
+parameters/attack_type/blend_position = 0.0
+parameters/move/blend_position = 0.5
+parameters/oneshot/active = false
+parameters/oneshot/request = 0
+
+[node name="RootMotionView" type="RootMotionView" parent="." index="3"]
+animation_path = NodePath("../AnimationTree")
