@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://cukwvv040bdb2"]
+[gd_scene load_steps=19 format=3 uid="uid://cukwvv040bdb2"]
 
 [ext_resource type="Script" path="res://Scripts/Root.cs" id="1_7rc4o"]
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_lsgow"]
 [ext_resource type="PackedScene" uid="uid://b8et43l2djrlf" path="res://Scenes/Gun.tscn" id="3_vjf6c"]
+[ext_resource type="PackedScene" uid="uid://c5t17oajj5ybh" path="res://Scenes/Zombie_v2.tscn" id="5_r8pxg"]
 [ext_resource type="PackedScene" uid="uid://dr45b2356po5d" path="res://Scenes/Zombie.tscn" id="5_vga0w"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_l8r4j"]
@@ -193,12 +194,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_m1sgo")
 
 [node name="Zed" parent="." instance=ExtResource("5_vga0w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.16375, 0)
 
-[node name="Zed2" parent="." instance=ExtResource("5_vga0w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.77795, 0, 0)
-
-[node name="Zed3" parent="." instance=ExtResource("5_vga0w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.54502, 0, 0)
-
-[node name="Zed4" parent="." instance=ExtResource("5_vga0w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.37307, 0, 0)
+[node name="Zombie" parent="." instance=ExtResource("5_r8pxg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.28622, 2.44426, 0)
