@@ -39,8 +39,10 @@ public partial class Gun : Node3D
         CurrentClips = Clips;
         SetClipAmmo(ClipAmmo);
         MuzzleFlash = GetNode<Node3D>("MuzzleFlash");
-        TimerSwayClampDisabled = new Godot.Timer();
-        TimerSwayClampDisabled.WaitTime = 1; // 1 second
+        TimerSwayClampDisabled = new Godot.Timer
+        {
+            WaitTime = 1 // 1 second
+        };
         AddChild(TimerSwayClampDisabled);
     }
 
@@ -106,7 +108,7 @@ public partial class Gun : Node3D
 
             if (TimerSwayClampDisabled.TimeLeft == 0)
             {
-                var rot = Rotation;
+                Vector3 rot = Rotation;
                 rot.X = Mathf.Clamp(Rotation.X, -0.3f, 0.3f);
                 rot.Y = Mathf.Clamp(Rotation.Y, -0.3f, 0.3f);
                 Rotation = rot;
@@ -141,10 +143,10 @@ public partial class Gun : Node3D
 
     private void WepRecoil(float delta)
     {
-        var recoilY = Math.RandomRange(-Recoil.Y * delta, Recoil.Y * delta);
-        var recoilZ = Math.RandomRange(-Recoil.Z * delta, Recoil.Z * delta);
+        float recoilY = Math.RandomRange(-Recoil.Y * delta, Recoil.Y * delta);
+        float recoilZ = Math.RandomRange(-Recoil.Z * delta, Recoil.Z * delta);
 
-        var recoilVec = new Vector3(Recoil.X * delta, recoilY, recoilZ);
+        Vector3 recoilVec = new(Recoil.X * delta, recoilY, recoilZ);
 
         Player.CameraOffset += recoilVec;
         //Player.CameraTarget += new Vector3(recoilVec.x / 2, 0, 0); // Only return halfway
@@ -154,7 +156,7 @@ public partial class Gun : Node3D
     {
         WeaponKickbackAnimationActive = true;
 
-        var pos = Input.IsActionPressed("ads") ? ADS_Position : RestPosition;
+        Vector3 pos = Input.IsActionPressed("ads") ? ADS_Position : RestPosition;
 
         TweenKickback = GetTree().CreateTween();
         TweenKickback.TweenProperty(this, "position", pos + new Vector3(0, 0, 0.1f), 0.01f);
@@ -194,7 +196,7 @@ public partial class Gun : Node3D
     {
         MuzzleFlash.Visible = true;
 
-        var timer = GetTree().CreateTimer(0.1f);
+        SceneTreeTimer timer = GetTree().CreateTimer(0.1f);
         timer.Timeout += () => MuzzleFlash.Visible = false;
     }
 

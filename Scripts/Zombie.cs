@@ -16,10 +16,12 @@ public partial class Zombie : CharacterBody3D
 
         NavigationAgent3D = GetNode<NavigationAgent3D>("NavigationAgent3D");
 
-        Timer = new Godot.Timer();
-        Timer.WaitTime = 1;
-        Timer.Autostart = true;
-        Timer.OneShot = false;
+        Timer = new Godot.Timer
+        {
+            WaitTime = 1,
+            Autostart = true,
+            OneShot = false
+        };
         Timer.Timeout += () =>
         {
             WeAreReady = true;
@@ -36,16 +38,16 @@ public partial class Zombie : CharacterBody3D
 
         AnimationTree.Set("parameters/move/blend_position", AnimationMotion);
 
-        var nextLocation = NavigationAgent3D.GetNextPathPosition();
-        var newVelocity = (nextLocation - Position).Normalized();
+        Vector3 nextLocation = NavigationAgent3D.GetNextPathPosition();
+        Vector3 newVelocity = (nextLocation - Position).Normalized();
 
         //Geometry.CreateSphere(nextLocation, 0.2f, 2);
 
-        var dir = nextLocation - Position;
+        Vector3 dir = nextLocation - Position;
 
-        var angle = Mathf.Atan2(dir.X, dir.Z);
+        float angle = Mathf.Atan2(dir.X, dir.Z);
 
-        var rot = Rotation;
+        Vector3 rot = Rotation;
         rot.Y = Mathf.LerpAngle(rot.Y, angle, 0.01f);
         Rotation = rot;
 
