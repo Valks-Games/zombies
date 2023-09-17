@@ -2,28 +2,28 @@
 
 public partial class Geometry : Node
 {
-	private static SceneTree SceneTree { get; set; }
+    private static SceneTree SceneTree { get; set; }
 
-	public override void _Ready() => SceneTree = GetTree();
+    public override void _Ready() => SceneTree = GetTree();
 
-	public static void CreateSphere(Vector3 pos, float radius = 0.2f, float removeDelay = -1)
-	{
-		var sphere = new MeshInstance3D();
+    public static void CreateSphere(Vector3 pos, float radius = 0.2f, float removeDelay = -1)
+    {
+        var sphere = new MeshInstance3D();
 
-		sphere.Mesh = new SphereMesh();
-		var sphereMesh = (SphereMesh)sphere.Mesh;
+        sphere.Mesh = new SphereMesh();
+        var sphereMesh = (SphereMesh)sphere.Mesh;
 
-		sphereMesh.Radius = radius;
-		sphereMesh.Height = sphereMesh.Radius * 2;
+        sphereMesh.Radius = radius;
+        sphereMesh.Height = sphereMesh.Radius * 2;
 
-		sphere.Position = pos;
+        sphere.Position = pos;
 
-		if (removeDelay != -1)
-		{
-			var timer = SceneTree.CreateTimer(removeDelay);
-			timer.Timeout += () => sphere.QueueFree();
-		}
+        if (removeDelay != -1)
+        {
+            var timer = SceneTree.CreateTimer(removeDelay);
+            timer.Timeout += () => sphere.QueueFree();
+        }
 
-		SceneTree.Root.AddChild(sphere);
-	}
+        SceneTree.Root.AddChild(sphere);
+    }
 }
