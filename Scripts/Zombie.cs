@@ -55,12 +55,12 @@ public partial class Zombie : CharacterBody3D
 			)
 		{
 			AnimationMotion = Mathf.Lerp(AnimationMotion, 0.5f, 0.02f);
-			NavigationAgent3D.SetVelocity(newVelocity);
+			NavigationAgent3D.Velocity = newVelocity;
 		}
 		else
 		{ 
 			AnimationMotion = Mathf.Lerp(AnimationMotion, 0f, 0.02f);
-			NavigationAgent3D.SetVelocity(Vector3.Zero);
+			NavigationAgent3D.Velocity = Vector3.Zero;
 		}
 
 		PrevRot = Rotation;
